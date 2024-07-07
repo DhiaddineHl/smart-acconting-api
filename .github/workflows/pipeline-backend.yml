@@ -90,11 +90,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
-      - name: Extract project version
-        id: extract_version
-        run: |
-          cd wind-recruitment-api
-          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+#      - name: Extract project version
+#        id: extract_version
+#        run: |
+#          cd wind-recruitment-api
+#          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -108,7 +108,7 @@ jobs:
           context: wind-recruitment-api
           file: docker/backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:1.0.0,${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:latest
           build-args: |
-            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
+            APP_VERSION=1.0.0
   
