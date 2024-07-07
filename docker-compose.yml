@@ -1,0 +1,43 @@
+services:
+  postgres:
+    container_name: postgres-wind-recruitment
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: wind
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5433:5432
+    networks:
+      - wind-recruitment-network
+    restart: unless-stopped
+  wind-recruitment-api:
+    container_name: wind-recruitment-api
+    image: wind-recruitment/wind-recruitment-api:1.0.1
+    ports:
+      - 8080:8080
+    networks:
+      - wind-recruitment-network
+    depends_on:
+      - postgres
+
+#  wind-recruitment-ui:
+#    container_name: wind-recruitment-ui
+#    image: #todo : generate the ui image and specify it here
+#    ports:
+#      - 8080:80
+#    networks:
+#      - wind-recruitment-network
+#    depends_on:
+#      - wind-recruitment-api
+
+networks:
+  wind-recruitment-network:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
