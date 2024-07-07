@@ -26,6 +26,9 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
+      - name: Set permissions for mvnw
+        run: chmod +x ./wind-recruitment-api/mvnw
+
       - name: Compile project
         run: |
           cd wind-recruitment-api
@@ -45,6 +48,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'corretto'
+
+      - name: Set permissions for mvnw
+        run: chmod +x ./wind-recruitment-api/mvnw
 
       - name: Running Unit Tests
         run: |
@@ -66,7 +72,10 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: Compile project
+      - name: Set permissions for mvnw
+        run: chmod +x ./wind-recruitment-api/mvnw
+
+      - name: build project
         run: |
           cd wind-recruitment-api
           ./mvnw clean package
