@@ -104,11 +104,14 @@ jobs:
 
       - name: Build & Push to DockerHub
         uses: docker/build-push-action@v5
-        with:
-          context: ../../wind-recruitment-api
-          file: Docker/backend/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:1.0.0,${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:latest
-          build-args: |
-            APP_VERSION=1.0.0
+        run: |
+          cd wind-recruitment-api
+          docker buildx build \
+            --build-arg APP_VERSION=1.0.0 \
+            --file Docker/backend/Dockerfile \
+            --iidfile /home/runner/work/_temp/docker-actions-toolkit-wVfUzK/build-iidfile-561dec5b2f.txt \
+            --tag your-dockerhub-username/wind-recruitment-api:1.0.0 \
+            --tag your-dockerhub-username/wind-recruitment-api:latest \
+            --metadata-file /home/runner/work/_temp/docker-actions-toolkit-wVfUzK/build-metadata-47b36d38cb.json \
+            --push .
   
