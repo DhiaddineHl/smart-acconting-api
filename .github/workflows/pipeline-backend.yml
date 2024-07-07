@@ -1,0 +1,106 @@
+name: Wind recruitment API Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - wind-recruitment-api/**
+      - docker/backend/**
+      - 'docker-compose.yml'
+      - .github/workflows/*-backend.yml
+
+jobs:
+  compile:
+    runs-on: self-hosted
+    name: Compile project
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Running Unit Tests
+        run: |
+          cd wind-recruitment-api
+          ./mvnw clean compile
+
+  unit-tests:
+    runs-on: self-hosted
+    name: Unit tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Running Unit Tests
+        run: |
+          cd wind-recruitment-api
+          ./mvnw clean test
+  build:
+    runs-on: self-hosted
+    name: Build backend
+    needs: [compile, unit-tests]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Compile project
+        run: |
+          cd wind-recruitment-api
+          ./mvnw clean compile
+
+  build-image:
+    name: Build Docker image
+    runs-on: self-hosted
+    needs: [build]
+    steps:
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+      - name: Extract project version
+        id: extract_version
+        run: |
+          cd wind-recruitment-api
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_SECRET }}
+
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: book-network
+          file: docker/backend/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:${{ steps.extract_version.outputs.VERSION }},${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:latest
+          build-args: |
+            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
+  
