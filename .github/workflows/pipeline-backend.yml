@@ -105,7 +105,7 @@ jobs:
       - name: Build & Push to DockerHub
         uses: docker/build-push-action@v5
         with:
-          context: https://github.com/DhiaddineHl/wind-recruitment/blob/ee524e8bade8c9737ef329bfee1d7e332148faf7/wind-recruitment-api
+          context: ./wind-recruitment-api
           file: ./Docker/backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:1.0.0,${{ secrets.DOCKER_HUB_USERNAME }}/wind-recruitment-api:latest
