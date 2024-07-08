@@ -96,6 +96,10 @@ jobs:
 #          cd wind-recruitment-api
 #          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
 
+
+      - name: list files
+        run: ls -R
+
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
