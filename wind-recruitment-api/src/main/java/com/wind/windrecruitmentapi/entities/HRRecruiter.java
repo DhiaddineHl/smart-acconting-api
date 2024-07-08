@@ -1,5 +1,6 @@
 package com.wind.windrecruitmentapi.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.*;
@@ -16,10 +17,18 @@ public class HRRecruiter extends User{
 
     private String company;
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "topicAuthor",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
     private List<Topic> proposedTopics;
 
-    @OneToMany
+    @OneToMany(
+            mappedBy = "hrRecruiter",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
+    )
     private List<Validation> validations;
 
 }

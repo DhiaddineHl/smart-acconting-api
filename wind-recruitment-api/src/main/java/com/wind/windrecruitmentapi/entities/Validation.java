@@ -25,9 +25,19 @@ public class Validation {
     private ValidationStatus status;
 
     @ManyToOne
+    @JoinColumn(
+            name = "hr_recruiter_id",
+            nullable = false,
+            referencedColumnName = "id"
+    )
     private HRRecruiter hrRecruiter;
 
     @ManyToOne
+    @JoinColumn(
+            name = "technical_recruiter_id",
+            nullable = false,
+            referencedColumnName = "id"
+    )
     private TechnicalRecruiter technicalRecruiter;
 
 }
