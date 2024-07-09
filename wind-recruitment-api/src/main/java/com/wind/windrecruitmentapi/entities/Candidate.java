@@ -2,10 +2,11 @@ package com.wind.windrecruitmentapi.entities;
 
 import jakarta.persistence.Entity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
-@Builder(builderMethodName = "candidateBuilder")
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

@@ -4,12 +4,13 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @Setter
-@Builder(builderMethodName = "hrRecruiterBuilder")
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
