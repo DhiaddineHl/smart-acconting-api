@@ -1,4 +1,4 @@
-package com.wind.windrecruitmentapi.utils;
+package com.wind.windrecruitmentapi.utils.validations;
 
 public enum ValidationStatus {
 

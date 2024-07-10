@@ -1,6 +1,7 @@
 package com.wind.windrecruitmentapi.entities;
 
 
+import com.wind.windrecruitmentapi.utils.canddacies.CandidacyStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +24,6 @@ public class Candidacy {
     private Topic topic;
 
     private String createdAt;
+    private CandidacyStatus status;
 
 }

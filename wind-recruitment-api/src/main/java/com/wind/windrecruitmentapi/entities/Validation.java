@@ -1,7 +1,7 @@
 package com.wind.windrecruitmentapi.entities;
 
 
-import com.wind.windrecruitmentapi.utils.ValidationStatus;
+import com.wind.windrecruitmentapi.utils.validations.ValidationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
