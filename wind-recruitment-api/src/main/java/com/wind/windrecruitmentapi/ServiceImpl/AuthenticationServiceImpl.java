@@ -1,8 +1,6 @@
 package com.wind.windrecruitmentapi.ServiceImpl;
 
-import com.wind.windrecruitmentapi.entities.Candidate;
-import com.wind.windrecruitmentapi.entities.Token;
-import com.wind.windrecruitmentapi.entities.User;
+import com.wind.windrecruitmentapi.entities.*;
 import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import com.wind.windrecruitmentapi.repositories.UserRepository;
 import com.wind.windrecruitmentapi.securityConfig.JWTService;
@@ -21,7 +19,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
-
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
@@ -60,13 +57,70 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthResponse registerManager(ManagerRegisterRequest request) {
-        return null;
+        verifyUser(request.getEmail());
+
+        EnterpriseManager hrRecruiter = EnterpriseManager.builder()
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone_number(request.getPhone_number())
+                .company(request.getCompany())
+                .build();
+
+        var savedUser = repository.save(hrRecruiter);
+        String jwtToken = jwtService.generateToken(savedUser);
+        saveUserToken(savedUser,jwtToken);
+
+        return AuthResponse.builder()
+                .access_token(jwtToken)
+                .build();
     }
 
     @Override
-    public AuthResponse loginRecruiter(AuthRequest request) {
-        return null;
+    public AuthResponse registerHRRecruiter(ManagerRegisterRequest request) {
+        verifyUser(request.getEmail());
+
+        HRRecruiter hrRecruiter = HRRecruiter.builder()
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone_number(request.getPhone_number())
+                .company(request.getCompany())
+                .build();
+
+        var savedUser = repository.save(hrRecruiter);
+        String jwtToken = jwtService.generateToken(savedUser);
+        saveUserToken(savedUser,jwtToken);
+
+        return AuthResponse.builder()
+                .access_token(jwtToken)
+                .build();
     }
+
+    @Override
+    public AuthResponse registerTechRecruiter(ManagerRegisterRequest request) {
+        verifyUser(request.getEmail());
+
+        TechnicalRecruiter technicalRecruiter = TechnicalRecruiter.builder()
+                .first_name(request.getFirst_name())
+                .last_name(request.getLast_name())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone_number(request.getPhone_number())
+                .company(request.getCompany())
+                .build();
+
+        var savedUser = repository.save(technicalRecruiter);
+        String jwtToken = jwtService.generateToken(savedUser);
+        saveUserToken(savedUser,jwtToken);
+
+        return AuthResponse.builder()
+                .access_token(jwtToken)
+                .build();
+    }
+
 
     @Override
     public AuthResponse authenticate(AuthRequest request) {

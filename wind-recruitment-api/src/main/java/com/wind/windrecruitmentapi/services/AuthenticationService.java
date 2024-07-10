@@ -9,7 +9,9 @@ public interface AuthenticationService {
 
     AuthResponse registerManager(ManagerRegisterRequest request);
 
-    AuthResponse loginRecruiter(AuthRequest request);
+    AuthResponse registerHRRecruiter(ManagerRegisterRequest request);
+
+    AuthResponse registerTechRecruiter(ManagerRegisterRequest request);
 
     AuthResponse authenticate(AuthRequest request);
 

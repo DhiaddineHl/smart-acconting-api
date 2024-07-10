@@ -30,18 +30,25 @@ public class AuthenticationController {
         return ResponseEntity.ok(authService.registerCandidate(request));
     }
 
+    @PostMapping("/register-hr-recruiter")
+    public ResponseEntity<AuthResponse> registerHRRecruiter(
+            @RequestBody ManagerRegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.registerHRRecruiter(request));
+    }
+
+    @PostMapping("/register-tech-recruiter")
+    public ResponseEntity<AuthResponse> registerTechnicalRecruiter(
+            @RequestBody ManagerRegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.registerTechRecruiter(request));
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @RequestBody RegisterRequest request
     ) {
         return ResponseEntity.ok(authService.register(request));
-    }
-
-    @PostMapping("/login-recruiter")
-    public ResponseEntity<AuthResponse> loginRecruiter(
-            @RequestBody AuthRequest request
-    ) {
-        return ResponseEntity.ok(authService.loginRecruiter(request));
     }
 
     @PostMapping("/login")
