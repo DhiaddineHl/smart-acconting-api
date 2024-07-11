@@ -1,6 +1,4 @@
-package com.wind.windrecruitmentapi.utils.canddacies;
-
-import lombok.Getter;
+package com.wind.windrecruitmentapi.utils.candidacies;
 
 public record CandidacyRequest(
     Integer topic_id

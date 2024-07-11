@@ -1,7 +1,7 @@
 package com.wind.windrecruitmentapi.mappers;
 
 import com.wind.windrecruitmentapi.entities.Candidacy;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyResponse;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

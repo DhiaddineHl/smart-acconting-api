@@ -2,7 +2,7 @@ package com.wind.windrecruitmentapi.services;
 
 
 import com.wind.windrecruitmentapi.utils.PageResponse;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyResponse;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public interface RecruiterService {
 
     PageResponse<CandidacyResponse> getCandidaciesByCandidate(Integer candidateId);
 
-    void validateCandidacy(Integer candidacyId);
+    void validateCandidacy(Integer candidacyId, String authenticationHeader);
 
     void getAllValidations();
 

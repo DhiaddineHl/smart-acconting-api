@@ -2,7 +2,7 @@ package com.wind.windrecruitmentapi.controllers;
 
 
 import com.wind.windrecruitmentapi.services.CandidateService;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyRequest;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

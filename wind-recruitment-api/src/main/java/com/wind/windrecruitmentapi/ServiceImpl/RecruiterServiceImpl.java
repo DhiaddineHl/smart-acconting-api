@@ -1,18 +1,12 @@
 package com.wind.windrecruitmentapi.ServiceImpl;
 
-import com.wind.windrecruitmentapi.entities.Candidacy;
-import com.wind.windrecruitmentapi.entities.HRRecruiter;
-import com.wind.windrecruitmentapi.entities.Token;
-import com.wind.windrecruitmentapi.entities.Topic;
+import com.wind.windrecruitmentapi.entities.*;
 import com.wind.windrecruitmentapi.mappers.CandidacyMapper;
 import com.wind.windrecruitmentapi.mappers.TopicMapper;
-import com.wind.windrecruitmentapi.repositories.CandidaciesRepository;
-import com.wind.windrecruitmentapi.repositories.HRRecruiterRepository;
-import com.wind.windrecruitmentapi.repositories.TokenRepository;
-import com.wind.windrecruitmentapi.repositories.TopicRepository;
+import com.wind.windrecruitmentapi.repositories.*;
 import com.wind.windrecruitmentapi.services.RecruiterService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyResponse;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 @Service
@@ -29,6 +27,7 @@ public class RecruiterServiceImpl implements RecruiterService {
     private final TopicRepository repository;
     private final CandidaciesRepository candidaciesRepository;
     private final TokenRepository tokenRepository;
+    private final ValidationRepository validationRepository;
     private final HRRecruiterRepository hrRepository;
     private final TopicMapper mapper;
     private final CandidacyMapper candidacyMapper;
@@ -138,7 +137,22 @@ public class RecruiterServiceImpl implements RecruiterService {
     }
 
     @Override
-    public void validateCandidacy(Integer candidacyId) {
+    public void validateCandidacy(Integer candidacyId, String authenticationHeader) {
+
+        Candidacy candidacy = candidaciesRepository.findById(candidacyId).orElseThrow();
+        HRRecruiter hrRecruiter = findRecruiterWithToken(authenticationHeader);
+
+        Locale locale = new Locale("fr", "FR");
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+        String date = dateFormat.format(new Date());
+
+        Validation newValidation = Validation.builder()
+                .candidacy(candidacy)
+                .createdAt(date)
+                .hrRecruiter(hrRecruiter)
+                .build();
+
+        validationRepository.save(newValidation);
 
     }
 

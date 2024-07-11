@@ -9,8 +9,8 @@ import com.wind.windrecruitmentapi.repositories.CandidateRepository;
 import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import com.wind.windrecruitmentapi.repositories.TopicRepository;
 import com.wind.windrecruitmentapi.services.CandidateService;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyRequest;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyStatus;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

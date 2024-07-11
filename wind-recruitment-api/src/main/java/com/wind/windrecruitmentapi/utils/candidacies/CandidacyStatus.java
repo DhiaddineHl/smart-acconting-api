@@ -1,4 +1,4 @@
-package com.wind.windrecruitmentapi.utils.canddacies;
+package com.wind.windrecruitmentapi.utils.candidacies;
 
 public enum CandidacyStatus {
 

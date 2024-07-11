@@ -3,7 +3,7 @@ package com.wind.windrecruitmentapi.controllers;
 
 import com.wind.windrecruitmentapi.services.RecruiterService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyResponse;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
 import lombok.RequiredArgsConstructor;
@@ -90,9 +90,10 @@ public class HRController {
 
     @PostMapping("/{candidacyId}")
     public void validateCandidacy(
-            @PathVariable("candidacyId") Integer candidacyId
+            @PathVariable("candidacyId") Integer candidacyId,
+            @RequestHeader("Authorization") String authenticationHeader
     ){
-        recruiterService.validateCandidacy(candidacyId);
+        recruiterService.validateCandidacy(candidacyId, authenticationHeader);
     }
 
     @GetMapping

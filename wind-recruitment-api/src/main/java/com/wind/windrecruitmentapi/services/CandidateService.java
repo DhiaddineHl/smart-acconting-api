@@ -1,7 +1,7 @@
 package com.wind.windrecruitmentapi.services;
 
 
-import com.wind.windrecruitmentapi.utils.canddacies.CandidacyRequest;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import org.springframework.stereotype.Service;
 
 @Service("candidateService")
