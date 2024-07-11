@@ -5,7 +5,7 @@ import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import com.wind.windrecruitmentapi.repositories.UserRepository;
 import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.AuthenticationService;
-import com.wind.windrecruitmentapi.utils.TokenType;
+import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

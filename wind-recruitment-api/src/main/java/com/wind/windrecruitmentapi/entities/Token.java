@@ -1,7 +1,7 @@
 package com.wind.windrecruitmentapi.entities;
 
 
-import com.wind.windrecruitmentapi.utils.TokenType;
+import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 

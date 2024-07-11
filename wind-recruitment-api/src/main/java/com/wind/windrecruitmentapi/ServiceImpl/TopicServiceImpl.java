@@ -49,7 +49,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public void updateTopic(TopicRequest request) {
+    public void updateTopic(TopicRequest request, Integer id) {
 
     }
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public interface TopicService {
     void createTopic(TopicRequest request, String authenticationHeader);
 
-    void updateTopic(TopicRequest request);
+    void updateTopic(TopicRequest request, Integer id);
 
     void deleteTopic(Integer id);
 

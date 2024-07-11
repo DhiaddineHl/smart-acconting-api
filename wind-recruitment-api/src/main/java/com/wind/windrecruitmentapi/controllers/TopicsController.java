@@ -23,11 +23,12 @@ public class TopicsController {
         topicService.createTopic(request, authenticationHeader);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public void updateTopic(
-        @RequestBody TopicRequest request
+        @RequestBody TopicRequest request,
+        @PathVariable("id") Integer id
     ){
-        topicService.updateTopic(request);
+        topicService.updateTopic(request, id);
     }
 
     @DeleteMapping("/{id}")
