@@ -1,8 +1,7 @@
 package com.wind.windrecruitmentapi.controllers;
 
 
-import com.wind.windrecruitmentapi.services.CandidacyService;
-import com.wind.windrecruitmentapi.services.TopicService;
+import com.wind.windrecruitmentapi.services.RecruiterService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.canddacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
@@ -16,15 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/hr")
 public class HRController {
 
-    private final TopicService topicService;
-    private final CandidacyService candidacyService;
+    private final RecruiterService recruiterService;
 
     @PostMapping("/topic")
     public void createTopic(
             @RequestBody TopicRequest request,
             @RequestHeader("Authorization") String authenticationHeader
     ){
-        topicService.createTopic(request, authenticationHeader);
+        recruiterService.createTopic(request, authenticationHeader);
     }
 
     @PutMapping("/topic/{id}")
@@ -32,14 +30,14 @@ public class HRController {
             @PathVariable("id") Integer id,
             @RequestBody TopicRequest request
     ){
-        topicService.updateTopic(request, id);
+        recruiterService.updateTopic(request, id);
     }
 
     @DeleteMapping("topic/{id}")
     public void deleteTopic(
             @PathVariable("id") Integer id
     ){
-        topicService.deleteTopic(id);
+        recruiterService.deleteTopic(id);
     }
 
     @GetMapping("/topics")
@@ -47,14 +45,14 @@ public class HRController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "number", defaultValue = "0", required = false) int number
     ){
-        return ResponseEntity.ok(topicService.getAllTopics(size, number));
+        return ResponseEntity.ok(recruiterService.getAllTopics(size, number));
     }
 
     @GetMapping("topic/{id}")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("id") Integer id
     ){
-        return ResponseEntity.ok(topicService.getTopicById(id));
+        return ResponseEntity.ok(recruiterService.getTopicById(id));
     }
 
     @GetMapping("/topicsByRecruiter")
@@ -63,7 +61,7 @@ public class HRController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "number", defaultValue = "0", required = false) int number
     ){
-        return ResponseEntity.ok(topicService.getTopicsByRecruiter(authenticationHeader, size, number));
+        return ResponseEntity.ok(recruiterService.getTopicsByRecruiter(authenticationHeader, size, number));
     }
 
     @GetMapping
@@ -71,7 +69,7 @@ public class HRController {
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "number", defaultValue = "0", required = false) int number
     ){
-        return ResponseEntity.ok(candidacyService.getAllCandidacies(
+        return ResponseEntity.ok(recruiterService.getAllCandidacies(
                 size, number
         ));
     }
@@ -80,14 +78,33 @@ public class HRController {
     public ResponseEntity<CandidacyResponse> getCandidacyById(
             @PathVariable("id") Integer id
     ){
-        return ResponseEntity.ok(candidacyService.getCandidacyById(id));
+        return ResponseEntity.ok(recruiterService.getCandidacyById(id));
     }
 
     @GetMapping("/{candidateId}")
     public ResponseEntity<PageResponse<CandidacyResponse>> getCandidaciesByCandidate(
             @PathVariable("candidateId") Integer candidateId
     ){
-        return ResponseEntity.ok(candidacyService.getCandidaciesByCandidate(candidateId));
+        return ResponseEntity.ok(recruiterService.getCandidaciesByCandidate(candidateId));
+    }
+
+    @PostMapping("/{candidacyId}")
+    public void validateCandidacy(
+            @PathVariable("candidacyId") Integer candidacyId
+    ){
+        recruiterService.validateCandidacy(candidacyId);
+    }
+
+    @GetMapping
+    public void getAllValidations(){
+        recruiterService.getAllValidations();
+    }
+
+    @GetMapping("/{id}")
+    public void getValidationById(
+            @PathVariable("id") Integer id
+    ){
+        recruiterService.getValidationById(id);
     }
 
 }
