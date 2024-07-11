@@ -7,6 +7,7 @@ import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.AuthenticationService;
 import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import com.wind.windrecruitmentapi.utils.authentication.*;
+import com.wind.windrecruitmentapi.utils.authorization.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -44,6 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
                 .university(request.getUniversity())
+                .role(UserRole.CANDIDATE)
                 .build();
 
         var savedUser = repository.save(candidate);
@@ -66,6 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
+                .role(UserRole.MANAGER)
                 .build();
 
         var savedUser = repository.save(hrRecruiter);
@@ -88,6 +91,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
+                .role(UserRole.RECRUITER)
                 .build();
 
         var savedUser = repository.save(hrRecruiter);
@@ -110,6 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
+                .role(UserRole.RECRUITER)
                 .build();
 
         var savedUser = repository.save(technicalRecruiter);

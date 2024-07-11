@@ -1,6 +1,7 @@
 package com.wind.windrecruitmentapi.entities;
 
 
+import com.wind.windrecruitmentapi.utils.authorization.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -31,13 +32,16 @@ public class User implements UserDetails {
     private String password;
     private String phone_number;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return role.getAuthorities();
     }
 
     @Override

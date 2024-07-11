@@ -5,6 +5,7 @@ import com.wind.windrecruitmentapi.services.AuthenticationService;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-hr-recruiter")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<AuthResponse> registerHRRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
@@ -38,17 +40,11 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-tech-recruiter")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<AuthResponse> registerTechnicalRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
         return ResponseEntity.ok(authService.registerTechRecruiter(request));
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(
-            @RequestBody RegisterRequest request
-    ) {
-        return ResponseEntity.ok(authService.register(request));
     }
 
     @PostMapping("/login")
