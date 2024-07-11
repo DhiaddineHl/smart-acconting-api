@@ -18,7 +18,7 @@ public class CandidacyController {
     @PostMapping
     public void postCandidacy(
             @RequestBody CandidacyRequest request,
-            @RequestHeader String authenticationHeader
+            @RequestHeader("Authorization") String authenticationHeader
             ){
         candidacyService.postCandidacy(request, authenticationHeader);
     }

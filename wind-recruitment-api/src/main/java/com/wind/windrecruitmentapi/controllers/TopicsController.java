@@ -18,7 +18,7 @@ public class TopicsController {
     @PostMapping
     public void createTopic(
             @RequestBody TopicRequest request,
-            @RequestHeader String authenticationHeader
+            @RequestHeader("Authorization") String authenticationHeader
     ){
         topicService.createTopic(request, authenticationHeader);
     }
@@ -54,7 +54,7 @@ public class TopicsController {
 
     @GetMapping("/recruiter")
     public ResponseEntity<PageResponse<TopicResponse>> getTopicByRecruiter(
-        @RequestHeader String authenticationHeader,
+        @RequestHeader("Authorization") String authenticationHeader,
         @RequestParam(name = "size", defaultValue = "10", required = false) int size,
         @RequestParam(name = "number", defaultValue = "0", required = false) int number
     ){
