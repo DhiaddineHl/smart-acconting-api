@@ -1,5 +1,6 @@
 package com.wind.windrecruitmentapi.utils.authentication;
 
+import com.wind.windrecruitmentapi.entities.User;
 import lombok.*;
 
 @Setter

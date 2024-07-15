@@ -2,6 +2,7 @@ package com.wind.windrecruitmentapi.entities;
 
 
 import com.wind.windrecruitmentapi.utils.validations.ValidationStatus;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,19 +26,10 @@ public class Validation {
     private ValidationStatus status;
 
     @ManyToOne
-    @JoinColumn(
-            name = "hr_recruiter_id",
-            nullable = false,
-            referencedColumnName = "id"
-    )
     private HRRecruiter hrRecruiter;
 
     @ManyToOne
-    @JoinColumn(
-            name = "technical_recruiter_id",
-            nullable = false,
-            referencedColumnName = "id"
-    )
+    @Nullable
     private TechnicalRecruiter technicalRecruiter;
 
 }
