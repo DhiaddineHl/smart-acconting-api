@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Button} from "primeng/button";
 import {SearchbarComponent} from "../searchbar/searchbar.component";
 import {ModalComponent} from "../modal/modal.component";
@@ -15,5 +15,9 @@ import {ModalComponent} from "../modal/modal.component";
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+
+  @Input({required: true}) title = '' ;
+
+  @Input() AddButton: boolean = false;
 
 }

@@ -1,1 +1,8 @@
-<p>candidacies works!</p>
+<div class="flex flex-row">
+  <app-sidebar />
+  <div class="flex flex-column gap-2 w-full" >
+    <app-header title="Candidacies" [AddButton]="false" />
+    <app-candidacies-table />
+  </div>
+</div>
+

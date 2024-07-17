@@ -3,22 +3,22 @@
  border-right-1 border-300
  gap-4
  ml-2
+ mr-2
 ">
   <app-avatar />
   <div class="flex flex-column" >
-    <p>
+    <p routerLink="" >
       <span class="pi pi-book" ></span>
       Topics</p>
-    <p>
+    <p routerLink="/candidacies" >
       <span class="pi pi-user" ></span>
       candidacies</p>
-    <p>
+    <p routerLink="/validations" >
       <span class="pi pi-thumbs-up-fill" ></span>
       validations</p>
   </div>
   <p>
-    <span class="pi pi-sign-out" ></span>
-    Logout</p>
+  <app-confirm-dialog />
 
 </div>
 

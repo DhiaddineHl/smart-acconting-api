@@ -4,13 +4,15 @@
    w-full
 " >
   <p class="text-3xl" >
-    Topics
+    {{title}}
   </p>
   <div class="flex flex-row justify-content-between align-items-center">
     <div>
       <app-searchbar />
     </div>
-    <app-modal />
+    @if (AddButton){
+      <app-modal />
+    }
   </div>
 
 </div>

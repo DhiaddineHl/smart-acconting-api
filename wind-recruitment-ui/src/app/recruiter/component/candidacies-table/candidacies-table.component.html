@@ -1,0 +1,26 @@
+<p-table [value]="candidacies"
+         [tableStyle]="{
+         'min-width': '50rem',
+         'padding': '1rem'
+         }"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Code</th>
+      <th>Candidate</th>
+      <th>Topic</th>
+      <th>State</th>
+      <th>Creation Date</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-candidacy>
+    <tr>
+      <td>{{ candidacy.code }}</td>
+      <td>{{ candidacy.candidate }}</td>
+      <td>{{ candidacy.topic }}</td>
+      <td>{{ candidacy.state }}</td>
+      <td>{{ candidacy.createdAt }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
