@@ -8,12 +8,15 @@ import {TopicTableComponent} from "./recruiter/component/topic-table/topic-table
 import {TopicsComponent} from "./recruiter/pages/topics/topics.component";
 import {CandidaciesComponent} from "./recruiter/pages/candidacies/candidacies.component";
 import {ValidationsComponent} from "./recruiter/pages/validations/validations.component";
+import {NavigationBarComponent} from "./manager/components/navigation-bar/navigation-bar.component";
+import {EmployeesTableComponent} from "./manager/components/employees-table/employees-table.component";
+import {SearchbarComponent} from "./recruiter/component/searchbar/searchbar.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ReactiveFormsModule,
-    Button, SidebarComponent, HeaderComponent, TopicTableComponent, TopicsComponent, CandidaciesComponent, ValidationsComponent],
+    Button, SidebarComponent, HeaderComponent, TopicTableComponent, TopicsComponent, CandidaciesComponent, ValidationsComponent, NavigationBarComponent, EmployeesTableComponent, SearchbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,0 +1,41 @@
+<p-table [value]="employees"
+         [tableStyle]="{
+         'min-width': '50rem',
+         'padding': '1rem'
+         }"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>id</th>
+      <th>Full name</th>
+      <th>Email</th>
+      <th>Speciality</th>
+      <th>Account state</th>
+      <th>Action</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-employee>
+    <tr>
+      <td>{{ employee.id }}</td>
+      <td>{{ employee.full_name }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.speciality }}</td>
+      <td>
+        @if (employee.accountVerified){
+          <p-badge value="Active" severity="success" />
+        } @else {
+          <p-badge value="Blocked" severity="warning" />
+        }
+      </td>
+      <td>
+        @if (employee.accountVerified){
+          <p-button label="Block" severity="danger" size="small" />
+        } @else {
+          <p-button label="Activate" severity="success" size="small" />
+        }
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
