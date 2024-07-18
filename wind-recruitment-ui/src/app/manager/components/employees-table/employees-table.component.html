@@ -29,9 +29,9 @@
       </td>
       <td>
         @if (employee.accountVerified){
-          <p-button label="Block" severity="danger" size="small" />
+          <app-warning-modal label="Block" severity="danger" message="Are you sure that you want to block this employee ?" />
         } @else {
-          <p-button label="Activate" severity="success" size="small" />
+          <app-warning-modal label="Activate" severity="success" message="Are you sure that you want to activate this employee ?" />
         }
       </td>
     </tr>

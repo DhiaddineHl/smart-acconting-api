@@ -3,6 +3,7 @@ import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {BadgeModule} from "primeng/badge";
 import {Button} from "primeng/button";
+import {WarningModalComponent} from "../warning-modal/warning-modal.component";
 
 @Component({
   selector: 'app-employees-table',
@@ -11,7 +12,8 @@ import {Button} from "primeng/button";
     PrimeTemplate,
     TableModule,
     BadgeModule,
-    Button
+    Button,
+    WarningModalComponent
   ],
   templateUrl: './employees-table.component.html',
   styleUrl: './employees-table.component.css'
