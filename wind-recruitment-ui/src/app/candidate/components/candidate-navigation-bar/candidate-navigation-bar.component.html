@@ -4,8 +4,8 @@
 " >
   <div class="flex flex-row gap-3 align-items-center " >
     <i class="pi pi-chart-line" style="font-size: 1.5rem"></i>
-    <p-button label="Topics" [text]="true" [plain]="true" />
-    <p-button label="My candidacies" [text]="true" [plain]="true"  />
+    <p-button label="Topics" [text]="true" [plain]="true" (onClick)="this.router.navigate(['candidate/topics'])" />
+    <p-button label="My candidacies" [text]="true" [plain]="true" (onClick)="this.router.navigate(['candidate/candidacies'])"  />
   </div>
   <p-avatar
     label="M"

@@ -2,6 +2,14 @@ import { Component } from '@angular/core';
 import {HeaderComponent} from "../../../recruiter/component/header/header.component";
 import {SidebarComponent} from "../../../recruiter/component/sidebar/sidebar.component";
 import {TopicTableComponent} from "../../../recruiter/component/topic-table/topic-table.component";
+import {
+    CandidaciesTableByCandidateComponent
+} from "../../components/candidacies-table-by-candidate/candidacies-table-by-candidate.component";
+import {CandidacyModalComponent} from "../../components/candidacy-modal/candidacy-modal.component";
+import {
+    CandidateNavigationBarComponent
+} from "../../components/candidate-navigation-bar/candidate-navigation-bar.component";
+import {SearchbarComponent} from "../../../recruiter/component/searchbar/searchbar.component";
 
 @Component({
   selector: 'app-topics-page',
@@ -9,7 +17,11 @@ import {TopicTableComponent} from "../../../recruiter/component/topic-table/topi
     imports: [
         HeaderComponent,
         SidebarComponent,
-        TopicTableComponent
+        TopicTableComponent,
+        CandidaciesTableByCandidateComponent,
+        CandidacyModalComponent,
+        CandidateNavigationBarComponent,
+        SearchbarComponent
     ],
   templateUrl: './topics-page.component.html',
   styleUrl: './topics-page.component.css'

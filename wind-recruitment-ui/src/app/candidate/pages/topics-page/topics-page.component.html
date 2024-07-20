@@ -1,8 +1,6 @@
-<div class="flex flex-row">
-  <app-sidebar />
-  <div class="flex flex-column gap-2 w-full" >
-    <app-header title="Topics" [AddButton]="false" />
-    <app-topic-table />
-  </div>
+<app-candidate-navigation-bar/>
+<div class="flex flex-row justify-content-between p-4" >
+  <app-searchbar />
 </div>
+<app-topic-table />
 

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import {TableModule} from "primeng/table";
+import {Button} from "primeng/button";
 
 @Component({
   selector: 'app-topic-table',
   standalone: true,
   imports: [
-    TableModule
+    TableModule,
+    Button
   ],
   templateUrl: './topic-table.component.html',
   styleUrl: './topic-table.component.css'
