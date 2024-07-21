@@ -21,8 +21,11 @@ public class JWTService {
     @Value("${spring.application.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${spring.application.security.jwt.expiration}")
-    private long jwtExpiration;
+    @Value("${spring.application.security.jwt.access-token-expiration}")
+    private long accessTokenExpiration;
+
+    @Value("${spring.application.security.jwt.refresh-token-expiration}")
+    private long refreshTokenExpiration;
 
 
 
@@ -43,8 +46,19 @@ public class JWTService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-        return buildToken(extraClaims, userDetails, jwtExpiration);
+        return buildToken(extraClaims, userDetails, accessTokenExpiration);
     }
+
+    public String generateRefreshToken(
+            UserDetails userDetails
+    ){
+        return buildToken(
+                new HashMap<>(),
+                userDetails,
+                refreshTokenExpiration
+        );
+    }
+
 
     private String buildToken(
             Map<String, Object> extraClaims,

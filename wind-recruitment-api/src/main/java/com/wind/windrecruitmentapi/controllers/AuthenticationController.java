@@ -4,10 +4,14 @@ package com.wind.windrecruitmentapi.controllers;
 import com.wind.windrecruitmentapi.services.AuthenticationService;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-hr-recruiter")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER')") //todo: fix the authority
     public void registerHRRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
@@ -57,6 +61,14 @@ public class AuthenticationController {
             @RequestBody AuthRequest request
     ){
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/refresh-token")
+    public void refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        authService.refreshToken(request, response);
     }
 
 
