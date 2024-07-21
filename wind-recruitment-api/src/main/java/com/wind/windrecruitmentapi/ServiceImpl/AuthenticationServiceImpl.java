@@ -11,11 +11,13 @@ import com.wind.windrecruitmentapi.utils.authorization.UserRole;
 import com.wind.windrecruitmentapi.utils.email.EmailService;
 import com.wind.windrecruitmentapi.utils.email.EmailTemplateName;
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public void registerCandidate(CandidateRegisterRequest request) throws MessagingException {
 
-        verifyUser(request.getEmail());
+//        verifyUser(request.getEmail());
 
         var candidate = Candidate.builder()
                 .first_name(request.getFirst_name())
@@ -122,9 +124,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-
     @Override
     public AuthResponse authenticate(AuthRequest request) {
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -135,24 +137,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(()-> new BadCredentialsException("Invalid email or password"));
 
         String jwtToken = jwtService.generateToken(user);
-        saveUserToken(user, jwtToken);
 
         return AuthResponse.builder()
                 .access_token(jwtToken)
                 .build();
     }
 
+    @Override
+    public void activateAccount(String token) throws MessagingException {
 
-    public void saveUserToken(User appUser, String jwtToken) {
-        Token token = Token.builder()
-                .user(appUser)
-                .token(jwtToken)
-                .tokenType(TokenType.BEARER)
-                .expired(false)
-                .revoked(false)
-                .build();
-        tokenRepository.save(token);
+        Token savedToken = tokenRepository.findByToken(token);
+
+        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
+            sendVerificationEmail(savedToken.getUser());
+            throw new RuntimeException("Activation token has expired. A new token has been send to the same email address");
+        }
+
+        User user = repository.findById(savedToken.getUser().getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setAccountActivated(true);
+        repository.save(user);
+
+        savedToken.setValidatedAt(LocalDateTime.now());
+        tokenRepository.save(savedToken);
     }
+
 
     public void sendVerificationEmail(User user) throws MessagingException {
         String verificationToken = generateAndSaveVerificationToken(user);
@@ -168,7 +177,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     private String generateAndSaveVerificationToken(User user) {
+
         String generatedCode = generateVerificationCode(6);
+
         Token token = Token.builder()
                 .token(generatedCode)
                 .createdAt(LocalDateTime.now())

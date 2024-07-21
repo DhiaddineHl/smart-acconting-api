@@ -16,4 +16,6 @@ public interface AuthenticationService {
 
     AuthResponse authenticate(AuthRequest request);
 
+    void activateAccount(String token) throws MessagingException;
+
 }

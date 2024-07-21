@@ -28,7 +28,7 @@ public class CandidateServiceImpl implements CandidateService {
     private final TopicRepository topicRepository;
     public Candidate findCandidateWithToken(String authenticationHeader){
         String token = authenticationHeader.substring(7);
-        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
+        Token jwtToken = tokenRepository.findByToken(token);
         return candidateRepository.findById(jwtToken.getUser().getId()).orElseThrow();
     }
     @Override
