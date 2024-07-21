@@ -19,32 +19,32 @@ public class AuthenticationController {
     private final AuthenticationService authService;
 
     @PostMapping("/register-manager")
-    public ResponseEntity<AuthResponse> registerManager(
+    public void registerManager(
             @RequestBody ManagerRegisterRequest request
     ) {
-        return ResponseEntity.ok(authService.registerManager(request));
+        authService.registerManager(request);
     }
     @PostMapping("/register-candidate")
-    public ResponseEntity<AuthResponse> registerCandidate(
+    public void registerCandidate(
             @RequestBody CandidateRegisterRequest request
     ) {
-        return ResponseEntity.ok(authService.registerCandidate(request));
+        authService.registerCandidate(request);
     }
 
     @PostMapping("/register-hr-recruiter")
     @PreAuthorize("hasRole('MANAGER')")
-    public ResponseEntity<AuthResponse> registerHRRecruiter(
+    public void registerHRRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
-        return ResponseEntity.ok(authService.registerHRRecruiter(request));
+        authService.registerHRRecruiter(request);
     }
 
     @PostMapping("/register-tech-recruiter")
     @PreAuthorize("hasRole('MANAGER')")
-    public ResponseEntity<AuthResponse> registerTechnicalRecruiter(
+    public void registerTechnicalRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
-        return ResponseEntity.ok(authService.registerTechRecruiter(request));
+        authService.registerTechRecruiter(request);
     }
 
     @PostMapping("/login")

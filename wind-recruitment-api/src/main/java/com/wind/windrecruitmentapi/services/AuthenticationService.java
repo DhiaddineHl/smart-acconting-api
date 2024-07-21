@@ -1,19 +1,19 @@
 package com.wind.windrecruitmentapi.services;
 
 import com.wind.windrecruitmentapi.utils.authentication.*;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 @Service("authService")
 public interface AuthenticationService {
-    AuthResponse registerCandidate(CandidateRegisterRequest request);
+    void registerCandidate(CandidateRegisterRequest request) throws MessagingException;
 
-    AuthResponse registerManager(ManagerRegisterRequest request);
+    void registerManager(ManagerRegisterRequest request) throws MessagingException;
 
-    AuthResponse registerHRRecruiter(ManagerRegisterRequest request);
+    void registerHRRecruiter(ManagerRegisterRequest request);
 
-    AuthResponse registerTechRecruiter(ManagerRegisterRequest request);
+    void registerTechRecruiter(ManagerRegisterRequest request);
 
     AuthResponse authenticate(AuthRequest request);
 
-    AuthResponse register(RegisterRequest request);
 }

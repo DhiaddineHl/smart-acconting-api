@@ -5,6 +5,8 @@ import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Builder
@@ -22,6 +24,10 @@ public class Token {
     private TokenType tokenType;
     private boolean revoked;
     private boolean expired;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime expiresAt;
+    private LocalDateTime validatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

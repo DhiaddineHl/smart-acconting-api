@@ -8,13 +8,19 @@ import com.wind.windrecruitmentapi.services.AuthenticationService;
 import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import com.wind.windrecruitmentapi.utils.authorization.UserRole;
+import com.wind.windrecruitmentapi.utils.email.EmailService;
+import com.wind.windrecruitmentapi.utils.email.EmailTemplateName;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,6 +32,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JWTService jwtService;
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
+
+    @Value("${spring.application.mailing.frontend.activation_url}")
+    private String activation_url;
 
     public void verifyUser(String email){
         Optional<User> user =  repository.findByEmail(email);
@@ -34,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
     @Override
-    public AuthResponse registerCandidate(CandidateRegisterRequest request) {
+    public void registerCandidate(CandidateRegisterRequest request) throws MessagingException {
 
         verifyUser(request.getEmail());
 
@@ -46,22 +56,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .phone_number(request.getPhone_number())
                 .university(request.getUniversity())
                 .role(UserRole.CANDIDATE)
+                .isAccountActivated(false)
                 .build();
 
-        var savedUser = repository.save(candidate);
-        String jwtToken = jwtService.generateToken(savedUser);
-        saveUserToken(savedUser,jwtToken);
+        repository.save(candidate);
+        sendVerificationEmail(candidate);
 
-        return AuthResponse.builder()
-                .access_token(jwtToken)
-                .build();
     }
 
     @Override
-    public AuthResponse registerManager(ManagerRegisterRequest request) {
+    public void registerManager(ManagerRegisterRequest request) throws MessagingException {
         verifyUser(request.getEmail());
 
-        EnterpriseManager hrRecruiter = EnterpriseManager.builder()
+        EnterpriseManager manager = EnterpriseManager.builder()
                 .first_name(request.getFirst_name())
                 .last_name(request.getLast_name())
                 .email(request.getEmail())
@@ -69,19 +76,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
                 .role(UserRole.MANAGER)
+                .isAccountActivated(false)
                 .build();
 
-        var savedUser = repository.save(hrRecruiter);
-        String jwtToken = jwtService.generateToken(savedUser);
-        saveUserToken(savedUser,jwtToken);
+        repository.save(manager);
+        sendVerificationEmail(manager);
 
-        return AuthResponse.builder()
-                .access_token(jwtToken)
-                .build();
     }
 
     @Override
-    public AuthResponse registerHRRecruiter(ManagerRegisterRequest request) {
+    public void registerHRRecruiter(ManagerRegisterRequest request) {
         verifyUser(request.getEmail());
 
         HRRecruiter hrRecruiter = HRRecruiter.builder()
@@ -92,19 +96,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
                 .role(UserRole.RECRUITER)
+                .isAccountActivated(true)
                 .build();
 
-        var savedUser = repository.save(hrRecruiter);
-        String jwtToken = jwtService.generateToken(savedUser);
-        saveUserToken(savedUser,jwtToken);
+        repository.save(hrRecruiter);
 
-        return AuthResponse.builder()
-                .access_token(jwtToken)
-                .build();
     }
 
     @Override
-    public AuthResponse registerTechRecruiter(ManagerRegisterRequest request) {
+    public void registerTechRecruiter(ManagerRegisterRequest request) {
         verifyUser(request.getEmail());
 
         TechnicalRecruiter technicalRecruiter = TechnicalRecruiter.builder()
@@ -115,15 +115,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
                 .role(UserRole.RECRUITER)
+                .isAccountActivated(true)
                 .build();
 
-        var savedUser = repository.save(technicalRecruiter);
-        String jwtToken = jwtService.generateToken(savedUser);
-        saveUserToken(savedUser,jwtToken);
+        repository.save(technicalRecruiter);
 
-        return AuthResponse.builder()
-                .access_token(jwtToken)
-                .build();
     }
 
 
@@ -158,22 +154,44 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         tokenRepository.save(token);
     }
 
-    public AuthResponse register(RegisterRequest request) {
-
-        var user = User.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone_number(request.getPhone_number())
-                .build();
-
-        var savedUser = repository.save(user);
-        var jwtToken = jwtService.generateToken(savedUser);
-        saveUserToken(savedUser,jwtToken);
-
-        return AuthResponse.builder()
-                .access_token(jwtToken)
-                .build();
+    public void sendVerificationEmail(User user) throws MessagingException {
+        String verificationToken = generateAndSaveVerificationToken(user);
+        //send email
+        emailService.sendEmail(
+                user.getEmail(),
+                user.getFirst_name() + user.getLast_name(),
+                EmailTemplateName.ACTIVATE_ACCOUNT,
+                activation_url,
+                verificationToken,
+                "Account activation"
+        );
     }
+
+    private String generateAndSaveVerificationToken(User user) {
+        String generatedCode = generateVerificationCode(6);
+        Token token = Token.builder()
+                .token(generatedCode)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .user(user)
+                .build();
+        tokenRepository.save(token);
+
+        return generatedCode;
+    }
+
+    private String generateVerificationCode(int length) {
+        String characters = "0123456789";
+        StringBuilder codeBuilder = new StringBuilder();
+
+        SecureRandom secureRandom = new SecureRandom();
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = secureRandom.nextInt(characters.length());
+            codeBuilder.append(characters.charAt(randomIndex));
+        }
+
+        return codeBuilder.toString();
+    }
+
 }

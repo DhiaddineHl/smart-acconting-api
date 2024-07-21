@@ -32,6 +32,8 @@ public class User implements UserDetails {
     private String password;
     private String phone_number;
 
+    private boolean isAccountActivated;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
@@ -71,6 +73,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isAccountActivated;
     }
 }
