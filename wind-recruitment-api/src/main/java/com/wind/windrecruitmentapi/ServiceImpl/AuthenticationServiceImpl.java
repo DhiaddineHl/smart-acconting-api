@@ -145,7 +145,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        //todo: add the token saving method
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
 
         return AuthResponse.builder()
                 .access_token(jwtToken)

@@ -34,7 +34,7 @@ public class RecruiterServiceImpl implements RecruiterService {
 
     public HRRecruiter findRecruiterWithToken(String authenticationHeader){
         String token = authenticationHeader.substring(7);
-        Token jwtToken = tokenRepository.findByToken(token);
+        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
         return hrRepository.findById(jwtToken.getUser().getId()).orElseThrow();
     }
 

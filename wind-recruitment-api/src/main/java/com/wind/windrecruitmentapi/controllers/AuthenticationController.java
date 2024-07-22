@@ -34,7 +34,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register-hr-recruiter")
-    @PreAuthorize("hasRole('MANAGER')") //todo: fix the authority
+    @PreAuthorize("hasRole('MANAGER')")
     public void registerHRRecruiter(
             @RequestBody ManagerRegisterRequest request
     ) {
