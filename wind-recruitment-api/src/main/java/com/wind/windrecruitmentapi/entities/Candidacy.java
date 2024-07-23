@@ -23,6 +23,8 @@ public class Candidacy {
     @ManyToOne
     private Topic topic;
 
+    private String file_url;
+
     private String createdAt;
     private CandidacyStatus status;
 

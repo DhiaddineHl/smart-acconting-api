@@ -11,8 +11,10 @@ import com.wind.windrecruitmentapi.repositories.TopicRepository;
 import com.wind.windrecruitmentapi.services.CandidateService;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyStatus;
+import com.wind.windrecruitmentapi.utils.files.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -26,6 +28,9 @@ public class CandidateServiceImpl implements CandidateService {
     private final TokenRepository tokenRepository;
     private final CandidateRepository candidateRepository;
     private final TopicRepository topicRepository;
+    private final CandidaciesRepository candidaciesRepository;
+    private final FileStorageService fileStorageService;
+
     public Candidate findCandidateWithToken(String authenticationHeader){
         String token = authenticationHeader.substring(7);
         Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
@@ -50,4 +55,14 @@ public class CandidateServiceImpl implements CandidateService {
         repository.save(candidacy);
 
     }
+
+    @Override
+    public void uploadCandidacyFiles(Integer candidacyId, MultipartFile file) {
+        Candidacy candidacy = candidaciesRepository.findById(candidacyId)
+                .orElseThrow();
+        var candidacyFile = fileStorageService.saveFile(file, candidacyId);
+        candidacy.setFile_url(candidacyFile);
+        candidaciesRepository.save(candidacy);
+    }
+
 }

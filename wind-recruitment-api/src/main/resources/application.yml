@@ -14,6 +14,10 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
   mail:
     host: smtp.gmail.com
     port: 465
@@ -42,4 +46,8 @@ spring:
     mailing:
       frontend:
         activation_url: http://localhost:4200/activate-account
+
+    file:
+      uploads:
+        file-output-path: ./uploads
 
