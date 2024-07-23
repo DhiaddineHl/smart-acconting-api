@@ -12,12 +12,19 @@ import {NavigationBarComponent} from "./manager/components/navigation-bar/naviga
 import {EmployeesTableComponent} from "./manager/components/employees-table/employees-table.component";
 import {SearchbarComponent} from "./recruiter/component/searchbar/searchbar.component";
 import {RegisteringModalComponent} from "./manager/components/registering-modal/registering-modal.component";
+import {LoginFormComponent} from "./authentication/pages/login-form/login-form.component";
+import {
+  CandidateRegistrationFormComponent
+} from "./authentication/pages/candidate-registration-form/candidate-registration-form.component";
+import {
+  AccountActivationFormComponent
+} from "./authentication/pages/account-activation-form/account-activation-form.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ReactiveFormsModule,
-    Button, SidebarComponent, HeaderComponent, TopicTableComponent, TopicsComponent, CandidaciesComponent, ValidationsComponent, NavigationBarComponent, EmployeesTableComponent, SearchbarComponent, RegisteringModalComponent],
+    Button, SidebarComponent, HeaderComponent, TopicTableComponent, TopicsComponent, CandidaciesComponent, ValidationsComponent, NavigationBarComponent, EmployeesTableComponent, SearchbarComponent, RegisteringModalComponent, LoginFormComponent, CandidateRegistrationFormComponent, AccountActivationFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
