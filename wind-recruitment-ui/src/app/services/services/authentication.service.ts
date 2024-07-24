@@ -26,7 +26,7 @@ import { registerTechnicalRecruiter } from '../fn/authentication-controller/regi
 import { RegisterTechnicalRecruiter$Params } from '../fn/authentication-controller/register-technical-recruiter';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationControllerService extends BaseService {
+export class AuthenticationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

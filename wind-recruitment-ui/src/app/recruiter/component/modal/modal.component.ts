@@ -45,13 +45,10 @@ export class ModalComponent {
     this.requirements.push(this.formBuilder.control(''))
   }
 
-
   isVisible: boolean = false;
   showModal() {
     this.isVisible = true
   }
-
-
 
   onSubmit() {
     console.log(this.topicCreation.getRawValue())

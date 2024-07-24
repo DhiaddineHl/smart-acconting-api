@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface CandidateRegisterRequest {
+interface CandidateRegisterRequest {
   email?: string;
   first_name?: string;
   last_name?: string;

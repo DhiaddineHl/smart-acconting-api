@@ -1,21 +1,23 @@
 <div class="border-1 border-300 border-round-lg p-4 m-6" >
   <p class="text-4xl border-bottom-1 pb-3 border-300 mt-0" >Candidate registration</p>
-  <form>
-    <div class="flex flex-row gap-4" >
-      <div class="flex flex-column gap-2" >
+  <form [formGroup]="registration" (submit)="onRegister()" >
+    <div class="flex flex-row gap-4 w-full" >
+      <div class="flex flex-column gap-2 w-6" >
         <label for="first">First name</label>
         <input
           pInputText
           id="first"
           aria-describedby="name-help"
+          formControlName="first_name"
         />
       </div>
-      <div class="flex flex-column gap-2" >
+      <div class="flex flex-column gap-2 w-6" >
         <label for="last">Last name</label>
         <input
           pInputText
           id="last"
           aria-describedby="duration-help"
+          formControlName="last_name"
         />
       </div>
     </div>
@@ -26,6 +28,7 @@
         pInputText
         id="email"
         aria-describedby="duration-help"
+        formControlName="email"
       />
     </div>
 
@@ -36,18 +39,20 @@
         id="password"
         type="password"
         aria-describedby="duration-help"
+        formControlName="password"
       />
     </div>
 
     <div class="flex flex-column gap-2 my-2 " >
-      <label for="spec">speciality</label>
+      <label for="spec">University</label>
       <input
         pInputText
         id="spec"
         aria-describedby="duration-help"
+        formControlName="university"
       />
     </div>
-    <p-button label="Register" />
+    <p-button label="Register" (onClick)="onRegister()" />
     <div class="flex flex-row align-items-center" >
       <p>Already subscribed?</p>
       <p-button label="Login" [link]="true" (onClick)="this.router.navigate(['/login'])" />

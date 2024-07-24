@@ -2,10 +2,10 @@
   <p class="text-4xl border-bottom-1 pb-3 border-300 mt-0" >Activate your account</p>
   <div class="card flex flex-column align-items-center" >
     <p class="text-xl" >Insert the code we sent to your email</p>
-    <p-inputOtp [length]="6" [integerOnly]="true" />
+    <p-inputOtp [length]="6" [(ngModel)]="activationCode" [integerOnly]="true" />
   </div>
   <div class="flex flex-row justify-content-center gap-3 m-3" >
-    <p-button label="Submit" />
+    <p-button label="Submit" (onClick)="onActivate()" />
     <p-button label="Resend code" [outlined]="true" />
   </div>
   <div class="flex flex-row justify-content-center" >
