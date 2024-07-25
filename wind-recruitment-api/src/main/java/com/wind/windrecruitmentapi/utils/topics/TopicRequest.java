@@ -14,7 +14,7 @@ public class TopicRequest {
 
     private String name;
     private String description;
-    private String duration;
+    private Float duration;
     private List<String> requirements;
 
 }

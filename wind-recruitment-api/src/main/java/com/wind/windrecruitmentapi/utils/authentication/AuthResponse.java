@@ -12,5 +12,6 @@ public class AuthResponse {
 
     private String access_token;
     private String refresh_token;
+    private String user_role;
 
 }

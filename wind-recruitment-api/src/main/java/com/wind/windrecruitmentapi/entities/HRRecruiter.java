@@ -17,6 +17,7 @@ import java.util.List;
 public class HRRecruiter extends User{
 
     private String company;
+    private String speciality;
 
     @OneToMany(
             mappedBy = "topicAuthor",

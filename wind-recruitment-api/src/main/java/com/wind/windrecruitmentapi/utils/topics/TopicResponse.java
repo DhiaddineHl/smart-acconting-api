@@ -3,9 +3,11 @@ package com.wind.windrecruitmentapi.utils.topics;
 import java.util.List;
 
 public record TopicResponse(
+
+    Integer id,
     String name,
     String description,
-    String duration,
+    Float duration,
     List<String> requirements
 ) {
 }

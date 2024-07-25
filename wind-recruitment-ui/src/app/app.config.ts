@@ -3,7 +3,10 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideAnimations} from "@angular/platform-browser/animations";
-import {provideHttpClient, withFetch} from "@angular/common/http";
+import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
+import {
+  httpTokenInterceptorInterceptor
+} from "./authentication/services/interceptor/http-token-interceptor.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,7 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(
-      withFetch()
+      withFetch(),
+      withInterceptors([httpTokenInterceptorInterceptor])
     )
   ]
 };

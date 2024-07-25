@@ -93,8 +93,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void registerHRRecruiter(ManagerRegisterRequest request) {
+    public void registerRecruiter(RecruiterRegisterRequest request) {
+
         verifyUser(request.getEmail());
+
+        if (request.getRecruiter_type().equalsIgnoreCase("human-resources")){
+            registerHRRecruiter(request);
+        }else if (request.getRecruiter_type().equalsIgnoreCase("technical")){
+            registerTechRecruiter(request);
+        }
+
+    }
+
+    public void registerHRRecruiter(RecruiterRegisterRequest request) {
 
         HRRecruiter hrRecruiter = HRRecruiter.builder()
                 .first_name(request.getFirst_name())
@@ -103,17 +114,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
                 .company(request.getCompany())
+                .speciality(request.getSpeciality())
                 .role(UserRole.RECRUITER)
                 .isAccountActivated(true)
                 .build();
-
         repository.save(hrRecruiter);
-
     }
 
-    @Override
-    public void registerTechRecruiter(ManagerRegisterRequest request) {
-        verifyUser(request.getEmail());
+    public void registerTechRecruiter(RecruiterRegisterRequest request) {
 
         TechnicalRecruiter technicalRecruiter = TechnicalRecruiter.builder()
                 .first_name(request.getFirst_name())
@@ -121,11 +129,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .phone_number(request.getPhone_number())
+                .speciality(request.getSpeciality())
                 .company(request.getCompany())
                 .role(UserRole.RECRUITER)
                 .isAccountActivated(true)
                 .build();
-
         repository.save(technicalRecruiter);
 
     }
@@ -151,6 +159,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthResponse.builder()
                 .access_token(jwtToken)
                 .refresh_token(refreshToken)
+                .user_role(user.getRole().name().toLowerCase())
                 .build();
     }
 
@@ -202,6 +211,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
     }
 
+
+
     private void saveUserToken(User user, String jwtToken) {
         Token token = Token.builder()
                 .user(user)
@@ -223,6 +234,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         });
         tokenRepository.saveAll(validUserTokens);
     }
+
+    //todo: add the resend activationCode method
 
 
 }

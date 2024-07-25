@@ -6,6 +6,7 @@ import {StrictHttpResponse} from "../../services/strict-http-response";
 export interface AuthenticationResponse {
   access_token: string
   refresh_token: string
+  user_role: string
 }
 
 export interface AuthenticationRequest{
@@ -18,6 +19,8 @@ export interface RecruiterRegisterRequest{
   last_name: string
   email: string
   password: string
+  phone_number: string
+  recruiter_type: string
   company: string
   speciality: string
 }

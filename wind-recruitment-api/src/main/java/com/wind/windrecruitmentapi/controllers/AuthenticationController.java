@@ -33,20 +33,28 @@ public class AuthenticationController {
         authService.registerCandidate(request);
     }
 
-    @PostMapping("/register-hr-recruiter")
-    @PreAuthorize("hasRole('MANAGER')")
-    public void registerHRRecruiter(
-            @RequestBody ManagerRegisterRequest request
-    ) {
-        authService.registerHRRecruiter(request);
-    }
+//    @PostMapping("/register-hr-recruiter")
+//    @PreAuthorize("hasRole('MANAGER')")
+//    public void registerHRRecruiter(
+//            @RequestBody ManagerRegisterRequest request
+//    ) {
+//        authService.registerHRRecruiter(request);
+//    }
+//
+//    @PostMapping("/register-tech-recruiter")
+//    @PreAuthorize("hasRole('MANAGER')")
+//    public void registerTechnicalRecruiter(
+//            @RequestBody ManagerRegisterRequest request
+//    ) {
+//        authService.registerTechRecruiter(request);
+//    }
 
-    @PostMapping("/register-tech-recruiter")
+    @PostMapping("/register-recruiter")
     @PreAuthorize("hasRole('MANAGER')")
-    public void registerTechnicalRecruiter(
-            @RequestBody ManagerRegisterRequest request
+    public void registerRecruiter(
+            @RequestBody RecruiterRegisterRequest request
     ) {
-        authService.registerTechRecruiter(request);
+        authService.registerRecruiter(request);
     }
 
     @PostMapping("/activate-account")

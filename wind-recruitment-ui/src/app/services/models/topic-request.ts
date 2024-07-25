@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface TopicRequest {
+ interface TopicRequest {
   description?: string;
   duration?: string;
   name?: string;

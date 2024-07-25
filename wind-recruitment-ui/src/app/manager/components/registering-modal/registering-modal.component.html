@@ -10,7 +10,7 @@
   <form [formGroup]="recruiterRegistration" (ngSubmit)="onSubmit()" >
 
     <div class="flex flex-row gap-4" >
-      <div class="flex flex-column gap-2" >
+      <div class="flex flex-column gap-2 w-6 " >
         <label for="first">First name</label>
         <input
           pInputText
@@ -18,7 +18,7 @@
           aria-describedby="name-help"
           formControlName="first_name" />
       </div>
-      <div class="flex flex-column gap-2" >
+      <div class="flex flex-column gap-2 w-6 " >
         <label for="last">Last name</label>
         <input
           pInputText
@@ -48,6 +48,45 @@
     </div>
 
     <div class="flex flex-column gap-2 my-2 " >
+      <label for="spec">Phone number</label>
+      <input
+        pInputText
+        id="phone"
+        aria-describedby="phone-help"
+        formControlName="phone_number" />
+    </div>
+
+    <div class="my-2">
+      <label>Recruiter type</label>
+
+      <div class="flex flex-row gap-3 my-2" >
+        <div class="flex align-items-center gap-1">
+          <label for="hr" class="ml-2">
+            Human resources
+          </label>
+          <p-radioButton
+            id="hr"
+            name="recruiter_type"
+            value="recruiter_type"
+            formControlName="recruiter_type"
+            inputId="hr" />
+        </div>
+        <div class="flex align-items-center gap-1">
+          <label for="tech" class="ml-2">
+            Technical
+          </label>
+          <p-radioButton
+            id="tech"
+            name="recruiter_type"
+            value="recruiter_type"
+            formControlName="recruiter_type"
+            inputId="tech" />
+        </div>
+      </div>
+    </div>
+
+  <div class="flex flex-row gap-3" >
+    <div class="flex flex-column gap-2 my-2 w-6 " >
       <label for="spec">speciality</label>
       <input
         pInputText
@@ -55,6 +94,18 @@
         aria-describedby="duration-help"
         formControlName="speciality" />
     </div>
+    <div class="flex flex-column gap-2 my-2 w-6 " >
+      <label for="spec">Company</label>
+      <input
+        pInputText
+        id="company"
+        aria-describedby="company-help"
+        formControlName="company" />
+    </div>
+  </div>
+
+
+
 
     <p-button label="Submit" (click)="onSubmit()" />
   </form>

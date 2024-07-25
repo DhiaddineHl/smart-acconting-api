@@ -11,6 +11,7 @@ public class TopicMapper implements Function<Topic, TopicResponse> {
     @Override
     public TopicResponse apply(Topic topic) {
         return new TopicResponse(
+                topic.getId(),
                 topic.getName(),
                 topic.getDescription(),
                 topic.getDuration(),

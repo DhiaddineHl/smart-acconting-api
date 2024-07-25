@@ -18,6 +18,7 @@ import java.util.List;
 public class TechnicalRecruiter extends User{
 
     private String company;
+    private String speciality;
 
     @OneToMany(
             mappedBy = "technicalRecruiter",

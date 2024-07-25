@@ -20,7 +20,7 @@ public class Topic {
 
     private String name;
     private String description;
-    private String duration;
+    private Float duration;
 
     @ElementCollection
     private List<String> requirements;

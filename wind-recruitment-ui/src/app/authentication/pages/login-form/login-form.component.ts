@@ -39,7 +39,7 @@ export class LoginFormComponent {
         this.tokenService.setToken("access_token", response.access_token);
         this.tokenService.setToken("refresh_token", response.refresh_token);
         console.log(response);
-        this.router.navigate(['/'])
+        this.router.navigate([response.user_role])
       },error: (err) => {
         console.log(err)
       }

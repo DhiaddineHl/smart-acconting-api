@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="wind-db@localhost" uuid="98eeadd0-347f-4454-80ce-5a0cb43b6f94">
+    <data-source source="LOCAL" name="wind@localhost" uuid="f475513d-1555-47b7-8ac4-63197cea4169">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5433/wind-db</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5433/wind</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />

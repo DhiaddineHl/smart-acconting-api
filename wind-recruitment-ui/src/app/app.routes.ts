@@ -14,13 +14,19 @@ import {
 } from "./authentication/pages/candidate-registration-form/candidate-registration-form.component";
 
 export const routes: Routes = [
-  {path: '', component: TopicsComponent},
-  {path: 'candidacies', component: CandidaciesComponent},
-  {path: 'validations', component: ValidationsComponent},
+  {path: 'recruiter/topics', component: TopicsComponent},
+  {path: 'recruiter/candidacies', component: CandidaciesComponent},
+  {path: 'recruiter/validations', component: ValidationsComponent},
+
   {path: 'manager', component: EmployeesPageComponent},
+
   {path: 'candidate/candidacies', component: CandidaciesPageComponent},
   {path: 'candidate/topics', component: TopicsPageComponent},
+
   {path: 'login', component: LoginFormComponent},
   {path: 'activate-account', component: AccountActivationFormComponent},
   {path: 'register/candidate', component: CandidateRegistrationFormComponent},
+
+  {path: 'candidate', redirectTo: 'candidate/candidacies'},
+  {path: 'recruiter', redirectTo: 'recruiter/topics'},
 ];
