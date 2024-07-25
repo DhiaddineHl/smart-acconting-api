@@ -1,3 +1,4 @@
+<p-toast />
 <p-button label="New Topic" severity="success" (onClick)="showModal()" />
 <p-dialog
   header="Insert the topic details"
@@ -20,11 +21,14 @@
       </div>
       <div class="flex flex-column gap-2" >
         <label for="duration">Duration(in months)</label>
-        <input
-          pInputText
+        <p-inputNumber
+          formControlName="duration"
           id="duration"
-          aria-describedby="duration-help"
-          formControlName="duration" />
+          mode="decimal"
+          [showButtons]="true"
+          inputId="minmax-buttons"
+          [min]="0"
+          [max]="8" />
       </div>
     </div>
 

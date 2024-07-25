@@ -7,9 +7,15 @@
     <p-button label="Dashboard" [text]="true" [plain]="true" />
     <p-button label="Employees" [text]="true" [plain]="true"  />
   </div>
-  <p-avatar
-    label="M"
-    styleClass="mr-2"
-    size="large"
-    shape="circle" />
+  <div>
+    <p-avatar
+      label="M"
+      styleClass="mr-2"
+      size="large"
+      shape="circle"
+      (click)="menu.toggle($event)"
+    />
+    <p-menu #menu [model]="items" [popup]="true" />
+  </div>
+
 </div>

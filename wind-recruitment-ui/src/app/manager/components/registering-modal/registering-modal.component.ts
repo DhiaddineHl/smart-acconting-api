@@ -1,10 +1,10 @@
-import {Component, inject} from '@angular/core';
+import {Component, importProvidersFrom, inject} from '@angular/core';
 import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {NgForOf} from "@angular/common";
-import {FormArray, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {AuthenticationService, RecruiterRegisterRequest} from "../../../authentication/services/authentication.service";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {MessageService} from "primeng/api";
@@ -24,9 +24,7 @@ import {ToastModule} from "primeng/toast";
     FormsModule,
     ToastModule
   ],
-  providers: [
-    MessageService
-  ],
+  providers: [MessageService],
   templateUrl: './registering-modal.component.html',
   styleUrl: './registering-modal.component.css'
 })

@@ -3,11 +3,11 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {StrictHttpResponse} from "../../../services/strict-http-response";
 
-interface TopicCreationRequest{
+export interface TopicCreationRequest{
   name: string
   duration: number
   description: string
-  requirements: string[]
+  requirements: Array<string>
 }
 
 interface TopicResponse{
