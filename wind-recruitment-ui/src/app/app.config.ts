@@ -7,6 +7,7 @@ import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/ht
 import {
   httpTokenInterceptorInterceptor
 } from "./authentication/services/interceptor/http-token-interceptor.interceptor";
+import {MessageService} from "primeng/api";
 
 export const appConfig: ApplicationConfig = {
   providers: [

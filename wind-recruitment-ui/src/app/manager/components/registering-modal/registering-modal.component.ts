@@ -5,8 +5,10 @@ import {InputTextModule} from "primeng/inputtext";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {NgForOf} from "@angular/common";
 import {FormArray, FormsModule, NonNullableFormBuilder, ReactiveFormsModule} from "@angular/forms";
-import {RecruiterRegisterRequest} from "../../../authentication/services/authentication.service";
+import {AuthenticationService, RecruiterRegisterRequest} from "../../../authentication/services/authentication.service";
 import {RadioButtonModule} from "primeng/radiobutton";
+import {MessageService} from "primeng/api";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-registering-modal',
@@ -19,7 +21,11 @@ import {RadioButtonModule} from "primeng/radiobutton";
     NgForOf,
     ReactiveFormsModule,
     RadioButtonModule,
-    FormsModule
+    FormsModule,
+    ToastModule
+  ],
+  providers: [
+    MessageService
   ],
   templateUrl: './registering-modal.component.html',
   styleUrl: './registering-modal.component.css'
@@ -27,6 +33,8 @@ import {RadioButtonModule} from "primeng/radiobutton";
 export class RegisteringModalComponent {
 
   formBuilder = inject(NonNullableFormBuilder);
+  authenticationService = inject(AuthenticationService);
+  messageService = inject(MessageService);
 
   recruiterRegistration = this.formBuilder.group<RecruiterRegisterRequest>({
     first_name: (''),
@@ -39,15 +47,31 @@ export class RegisteringModalComponent {
     company: ('')
   })
 
-  recruiter_type: string = '';
 
   isVisible: boolean = false;
   showModal() {
     this.isVisible = true
   }
+  hideModal(){
+    this.isVisible = false;
+  }
+
+  showSuccessToast(){
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content' });
+  }
 
   onSubmit() {
-    console.log(this.recruiterRegistration.getRawValue())
+    this.authenticationService.registerRecruiter(
+      this.recruiterRegistration.getRawValue()
+    ).subscribe({
+      next: (response) => {
+        console.log("recruiter registered successfully")
+        this.hideModal()
+        this.showSuccessToast()
+      },error: (err) => {
+        console.log(err)
+    }
+    })
   }
 
 }

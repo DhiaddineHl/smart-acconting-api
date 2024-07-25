@@ -48,13 +48,10 @@ export class AuthenticationService {
     return this.http.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/auth/register-candidate", request)
   }
 
-  registerHRRecruiter = (request: RecruiterRegisterRequest) : Observable<StrictHttpResponse<void>> => {
-    return this.http.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/auth/register-hr-recruiter", request)
+  registerRecruiter = (request: RecruiterRegisterRequest) : Observable<StrictHttpResponse<void>> => {
+    return this.http.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/auth/register-recruiter", request)
   }
 
-  registerTechRecruiter = (request: RecruiterRegisterRequest) : Observable<StrictHttpResponse<void>> => {
-    return this.http.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/auth/register-tech-recruiter", request)
-  }
 
   activateAccount = (token: string) : Observable<StrictHttpResponse<void>> => {
     return this.http.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/auth/activate-account", {}, {

@@ -44,6 +44,7 @@ export class LoginFormComponent {
         console.log(err)
       }
     })
+    // console.log(this.loginRequest.getRawValue())
   }
 
 
