@@ -1,31 +1,45 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {Button} from "primeng/button";
+import {TopicResponse, TopicResponsePage, TopicServiceService} from "../../services/topic/topic-service.service";
+import {BadgeModule} from "primeng/badge";
 
 @Component({
   selector: 'app-topic-table',
   standalone: true,
   imports: [
     TableModule,
-    Button
+    Button,
+    BadgeModule
   ],
   templateUrl: './topic-table.component.html',
   styleUrl: './topic-table.component.css'
 })
-export class TopicTableComponent {
-  topics = [
-    {
-      code: "1",
-      name: "topic 1",
-      technologies: "Spring & Angular",
-      duration: "2"
-    },
-    {
-      code: "2",
-      name: "topic 2",
-      technologies: "MERN Stack",
-      duration: "4"
-    },
-  ]
+export class TopicTableComponent implements OnInit{
+
+  topicsService = inject(TopicServiceService);
+
+  topicsResponse : TopicResponsePage = {};
+  size: number = 10;
+  number: number = 0;
+
+  getTopicsByRecruiter = () => {
+    this.topicsService.getTopicsByRecruiter(
+      this.number, this.size
+    ).subscribe({
+      next: (response) => {
+        this.topicsResponse = response
+        console.log(response.content)
+      }, error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.getTopicsByRecruiter()
+  }
+
+
 
 }

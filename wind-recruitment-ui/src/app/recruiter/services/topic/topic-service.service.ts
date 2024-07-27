@@ -10,21 +10,21 @@ export interface TopicCreationRequest{
   requirements: Array<string>
 }
 
-interface TopicResponse{
+export interface TopicResponse{
   id: number
   description: string;
   duration: number;
   name: string;
   requirements: string[];
 }
-interface TopicResponsePage{
-  content: Array<TopicResponse>;
-  first: boolean;
-  last: boolean;
-  number: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
+export interface TopicResponsePage{
+  content?: Array<TopicResponse>;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  size?: number;
+  totalElements?: number;
+  totalPages?: number;
 }
 
 @Injectable({
@@ -57,11 +57,11 @@ export class TopicServiceService {
     return this.httpClient.get<TopicResponse>(`http://localhost:8080/api/v1/hr/topic/${topicId}`)
   }
 
-  getTopicsByRecruiter = (size: number, number: number) : Observable<TopicResponsePage> => {
+  getTopicsByRecruiter = (number: number, size: number) : Observable<TopicResponsePage> => {
     return this.httpClient.get<TopicResponsePage>('http://localhost:8080/api/v1/hr/topicsByRecruiter', {
       params: {
-        size: size,
-        number: number
+        number: number,
+        size: size
       }
     })
   }

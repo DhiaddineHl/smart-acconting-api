@@ -10,19 +10,21 @@ import {
     CandidateNavigationBarComponent
 } from "../../components/candidate-navigation-bar/candidate-navigation-bar.component";
 import {SearchbarComponent} from "../../../recruiter/component/searchbar/searchbar.component";
+import {CandidateTopicsTableComponent} from "../../components/candidate-topics-table/candidate-topics-table.component";
 
 @Component({
   selector: 'app-topics-page',
   standalone: true,
-    imports: [
-        HeaderComponent,
-        SidebarComponent,
-        TopicTableComponent,
-        CandidaciesTableByCandidateComponent,
-        CandidacyModalComponent,
-        CandidateNavigationBarComponent,
-        SearchbarComponent
-    ],
+  imports: [
+    HeaderComponent,
+    SidebarComponent,
+    TopicTableComponent,
+    CandidaciesTableByCandidateComponent,
+    CandidacyModalComponent,
+    CandidateNavigationBarComponent,
+    SearchbarComponent,
+    CandidateTopicsTableComponent
+  ],
   templateUrl: './topics-page.component.html',
   styleUrl: './topics-page.component.css'
 })

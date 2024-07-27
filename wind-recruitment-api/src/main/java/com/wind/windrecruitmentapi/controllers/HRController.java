@@ -46,7 +46,7 @@ public class HRController {
     }
 
     @GetMapping("/topics")
-    @PreAuthorize("hasAuthority('recruiter:read')")
+    @PreAuthorize("hasAnyAuthority('recruiter:read', 'candidate:read')")
     public ResponseEntity<PageResponse<TopicResponse>> getAllTopics(
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,
             @RequestParam(name = "number", defaultValue = "0", required = false) int number
