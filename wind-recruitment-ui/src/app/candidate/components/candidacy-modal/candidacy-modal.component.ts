@@ -33,6 +33,7 @@ interface UploadEvent {
 })
 export class CandidacyModalComponent {
   isVisible: boolean = false;
+  selectedFile: any;
 
   topics = ["topic1", "topic2", "topic3", "topic4", "topic5"]
 
@@ -47,7 +48,19 @@ export class CandidacyModalComponent {
 
   }
 
-  onBasicUploadAuto($event: FileUploadEvent) {
+  onSelectFile(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0){
+      console.log(input.files[0].name)
+      this.selectedFile = input.files[0]
+    }
+    if (this.selectedFile) {
 
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.selectedFile = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
   }
 }

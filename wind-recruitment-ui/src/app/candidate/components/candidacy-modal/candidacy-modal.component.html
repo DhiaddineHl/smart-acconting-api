@@ -9,14 +9,26 @@
 
 
   <form [formGroup]="candidacyApplication">
-    <div class="flex flex-column" >
+    <div class="flex flex-column gap-4" >
       <p-dropdown
         formControlName="topic"
         [options]="topics"
         placeholder="Select a Topic" />
-      <p-button label="Submit" (click)="onSubmit()" />
-    </div>
 
+      <div class="custom-file-upload">
+        <label for="file-upload" class="file-upload-label">
+          <i class="pi pi-upload"></i> Choose a file
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          class="file-upload-input"
+          accept="application/pdf"
+          (change)="onSelectFile($event)"
+        />
+      </div>
+    </div>
+    <p-button label="Submit" (click)="onSubmit()" />
   </form>
 
 </p-dialog>
