@@ -11,11 +11,11 @@ export interface TopicCreationRequest{
 }
 
 export interface TopicResponse{
-  id: number
-  description: string;
-  duration: number;
-  name: string;
-  requirements: string[];
+  id?: number
+  description?: string;
+  duration?: number;
+  name?: string;
+  requirements?: string[];
 }
 export interface TopicResponsePage{
   content?: Array<TopicResponse>;

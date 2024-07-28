@@ -3,6 +3,7 @@ import {TableModule} from "primeng/table";
 import {Button} from "primeng/button";
 import {TopicResponse, TopicResponsePage, TopicServiceService} from "../../services/topic/topic-service.service";
 import {BadgeModule} from "primeng/badge";
+import {TopicDetailsModalComponent} from "../topic-details-modal/topic-details-modal.component";
 
 @Component({
   selector: 'app-topic-table',
@@ -10,7 +11,8 @@ import {BadgeModule} from "primeng/badge";
   imports: [
     TableModule,
     Button,
-    BadgeModule
+    BadgeModule,
+    TopicDetailsModalComponent
   ],
   templateUrl: './topic-table.component.html',
   styleUrl: './topic-table.component.css'
