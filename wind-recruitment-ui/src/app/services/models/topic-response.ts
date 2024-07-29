@@ -1,8 +1,9 @@
 /* tslint:disable */
 /* eslint-disable */
- interface TopicResponse {
+export interface TopicResponse {
   description?: string;
-  duration?: string;
+  duration?: number;
+  id?: number;
   name?: string;
   requirements?: Array<string>;
 }

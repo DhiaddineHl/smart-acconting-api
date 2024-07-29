@@ -6,7 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { HrControllerService } from './services/hr-controller.service';
 import { CandidateControllerService } from './services/candidate-controller.service';
-import { AuthenticationService } from './services/authentication.service';
+import { AuthenticationControllerService } from './services/authentication-controller.service';
 import { GreetControllerService } from './services/greet-controller.service';
 
 /**
@@ -19,10 +19,10 @@ import { GreetControllerService } from './services/greet-controller.service';
   providers: [
     HrControllerService,
     CandidateControllerService,
-    AuthenticationService,
+    AuthenticationControllerService,
     GreetControllerService,
     ApiConfiguration
-  ]
+  ],
 })
 export class ApiModule {
   static forRoot(params: ApiConfigurationParams): ModuleWithProviders<ApiModule> {
@@ -37,7 +37,7 @@ export class ApiModule {
     }
   }
 
-  constructor(
+  constructor( 
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {

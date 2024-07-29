@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service("candidateService")
 public interface CandidateService {
-    void postCandidacy(CandidacyRequest request, String authenticationHeader);
+    Integer postCandidacy(CandidacyRequest request, String authenticationHeader);
 
 
     void uploadCandidacyFiles(Integer candidacyId, MultipartFile file);

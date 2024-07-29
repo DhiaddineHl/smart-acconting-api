@@ -13,7 +13,7 @@ export interface PostCandidacy$Params {
       body: CandidacyRequest
 }
 
-export function postCandidacy(http: HttpClient, rootUrl: string, params: PostCandidacy$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+export function postCandidacy(http: HttpClient, rootUrl: string, params: PostCandidacy$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
   const rb = new RequestBuilder(rootUrl, postCandidacy.PATH, 'post');
   if (params) {
     rb.header('Authorization', params.Authorization, {});
@@ -21,11 +21,11 @@ export function postCandidacy(http: HttpClient, rootUrl: string, params: PostCan
   }
 
   return http.request(
-    rb.build({ responseType: 'text', accept: '*/*', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
     })
   );
 }

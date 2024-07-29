@@ -176,6 +176,48 @@
         }
       }
     },
+    "/api/v1/candidate/files/{candidacy_id}": {
+      "post": {
+        "tags": [
+          "candidate-controller"
+        ],
+        "operationId": "uploadCandidacyFiles",
+        "parameters": [
+          {
+            "name": "candidacy_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/candidate/candidacy": {
       "post": {
         "tags": [
@@ -204,22 +246,30 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/v1/auth/register-tech-recruiter": {
+    "/api/v1/auth/register-recruiter": {
       "post": {
         "tags": [
           "authentication-controller"
         ],
-        "operationId": "registerTechnicalRecruiter",
+        "operationId": "registerRecruiter",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ManagerRegisterRequest"
+                "$ref": "#/components/schemas/RecruiterRegisterRequest"
               }
             }
           },
@@ -238,29 +288,6 @@
           "authentication-controller"
         ],
         "operationId": "registerManager",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ManagerRegisterRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/register-hr-recruiter": {
-      "post": {
-        "tags": [
-          "authentication-controller"
-        ],
-        "operationId": "registerHRRecruiter",
         "requestBody": {
           "content": {
             "application/json": {
@@ -633,7 +660,8 @@
             "type": "string"
           },
           "duration": {
-            "type": "string"
+            "type": "number",
+            "format": "float"
           },
           "requirements": {
             "type": "array",
@@ -649,6 +677,35 @@
           "topic_id": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "RecruiterRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "recruiter_type": {
+            "type": "string"
+          },
+          "speciality": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
           }
         }
       },
@@ -717,6 +774,9 @@
           },
           "refresh_token": {
             "type": "string"
+          },
+          "user_role": {
+            "type": "string"
           }
         }
       },
@@ -756,6 +816,10 @@
       "TopicResponse": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "name": {
             "type": "string"
           },
@@ -763,7 +827,8 @@
             "type": "string"
           },
           "duration": {
-            "type": "string"
+            "type": "number",
+            "format": "float"
           },
           "requirements": {
             "type": "array",
@@ -773,8 +838,216 @@
           }
         }
       },
+      "Candidacy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/Candidate"
+          },
+          "topic": {
+            "$ref": "#/components/schemas/Topic"
+          },
+          "file_url": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "HR_VALIDATED",
+              "TECH_VALIDATED",
+              "ACCEPTED"
+            ]
+          }
+        }
+      },
       "CandidacyResponse": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "candidate": {
+            "$ref": "#/components/schemas/Candidate"
+          },
+          "topic": {
+            "$ref": "#/components/schemas/Topic"
+          },
+          "file": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "Candidate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "MANAGER",
+              "RECRUITER"
+            ]
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          },
+          "university": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountActivated": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "HRRecruiter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "MANAGER",
+              "RECRUITER"
+            ]
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          },
+          "company": {
+            "type": "string"
+          },
+          "speciality": {
+            "type": "string"
+          },
+          "proposedTopics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Topic"
+            }
+          },
+          "validations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Validation"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountActivated": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          }
+        }
       },
       "PageResponseCandidacyResponse": {
         "type": "object",
@@ -806,6 +1079,221 @@
           },
           "last": {
             "type": "boolean"
+          }
+        }
+      },
+      "TechnicalRecruiter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "MANAGER",
+              "RECRUITER"
+            ]
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          },
+          "company": {
+            "type": "string"
+          },
+          "speciality": {
+            "type": "string"
+          },
+          "validations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Validation"
+            }
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountActivated": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "token": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "BEARER"
+            ]
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "expired": {
+            "type": "boolean"
+          },
+          "revoked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Topic": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "format": "float"
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "topicAuthor": {
+            "$ref": "#/components/schemas/HRRecruiter"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CANDIDATE",
+              "MANAGER",
+              "RECRUITER"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "accountActivated": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Validation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "candidacy": {
+            "$ref": "#/components/schemas/Candidacy"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "HR_VALIDATED",
+              "TECHNICAL_VALIDATED",
+              "ACCEPTED"
+            ]
+          },
+          "hrRecruiter": {
+            "$ref": "#/components/schemas/HRRecruiter"
+          },
+          "technicalRecruiter": {
+            "$ref": "#/components/schemas/TechnicalRecruiter"
           }
         }
       }

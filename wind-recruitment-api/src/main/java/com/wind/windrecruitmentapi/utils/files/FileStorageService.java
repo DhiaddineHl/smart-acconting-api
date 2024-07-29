@@ -29,6 +29,11 @@ public class FileStorageService {
             @Nonnull Integer candidacyId
     ) {
         final String fileUploadSubPath = "candidacy" + separator + candidacyId;
+
+        if (fileUploadSubPath.isEmpty()){
+            log.warn("path was not created");
+        }
+
         return uploadFile(sourceFile, fileUploadSubPath);
     }
 

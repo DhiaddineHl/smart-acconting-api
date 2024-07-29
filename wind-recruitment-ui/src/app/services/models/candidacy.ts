@@ -2,11 +2,11 @@
 /* eslint-disable */
 import { Candidate } from '../models/candidate';
 import { Topic } from '../models/topic';
-export interface CandidacyResponse {
+export interface Candidacy {
   candidate?: Candidate;
   createdAt?: string;
-  file?: Array<string>;
+  file_url?: string;
   id?: number;
-  status?: string;
+  status?: 'PENDING' | 'HR_VALIDATED' | 'TECH_VALIDATED' | 'ACCEPTED';
   topic?: Topic;
 }

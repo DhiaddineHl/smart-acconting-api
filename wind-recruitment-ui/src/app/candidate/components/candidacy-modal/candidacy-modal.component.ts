@@ -10,6 +10,10 @@ import {FileUploadEvent, FileUploadModule} from "primeng/fileupload";
 
 import { MessageService } from 'primeng/api';
 
+import {CandidateControllerService} from "../../../services/services/candidate-controller.service";
+import {CandidacyRequest} from "../../../services/models/candidacy-request";
+import {TokenService} from "../../../authentication/services/token/token.service";
+
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -32,35 +36,81 @@ interface UploadEvent {
   styleUrl: './candidacy-modal.component.css',
 })
 export class CandidacyModalComponent {
+
   isVisible: boolean = false;
   selectedFile: any;
+  selectedPDF : string | undefined;
+  candidacyService = inject(CandidateControllerService)
+  tokenService = inject(TokenService)
 
-  topics = ["topic1", "topic2", "topic3", "topic4", "topic5"]
+  topics = [
+    {
+      id: 1,
+      name: "topic1"
+    },{
+      id: 2,
+      name: "topic2"
+    },{
+      id: 3,
+      name: "topic3"
+    },{
+      id: 4,
+      name: "topic4"
+    },
+  ]
 
   formBuilder = inject(NonNullableFormBuilder);
 
-  candidacyApplication = this.formBuilder.group({
-    topic: (''),
-    files: ('')
-  })
+  // candidacyApplication = this.formBuilder.group<CandidacyRequest>({
+  //   topic_id: (0)
+  // })
 
-  onSubmit() {
-
+  candidacyReq: CandidacyRequest = {
+    topic_id : 0
   }
 
-  onSelectFile(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0){
-      console.log(input.files[0].name)
-      this.selectedFile = input.files[0]
-    }
+  onSubmit() {
+    console.log(this.candidacyReq)
+    this.candidacyService.postCandidacy({
+      Authorization : "Bearer " + this.tokenService.getToken("access_token"),
+      body: this.candidacyReq
+    })
+      .subscribe({
+        next: (candidacy_id) => {
+          console.log("candidacy id : ", candidacy_id)
+          this.candidacyService.uploadCandidacyFiles({
+            candidacy_id,
+            body : {
+              file : this.selectedFile
+            }
+          }).subscribe({
+            next :() => {
+              console.log("file uploaded successfully")
+            }, error: (err : ErrorEvent) => {
+            console.log("error uploading files: ", err)
+          }
+          })
+        },error:(err: ErrorEvent) => {
+          console.log("error creation candidacy ", err)
+        }
+      })
+  }
+
+  onSelectFile(event: any) {
+    this.selectedFile = event.target.files[0];
+    console.log( "initial selected file", this.selectedFile);
+    console.log(this.selectedFile instanceof Blob)
+
     if (this.selectedFile) {
 
       const reader = new FileReader();
       reader.onload = () => {
-        this.selectedFile = reader.result as string;
+        this.selectedPDF = reader.result as string;
+
       };
       reader.readAsDataURL(this.selectedFile);
+
     }
+
   }
 }

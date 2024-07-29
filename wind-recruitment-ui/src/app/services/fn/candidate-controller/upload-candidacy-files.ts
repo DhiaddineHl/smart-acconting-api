@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ManagerRegisterRequest } from '../../models/manager-register-request';
 
-export interface RegisterHrRecruiter$Params {
-      body: ManagerRegisterRequest
+export interface UploadCandidacyFiles$Params {
+  candidacy_id: number;
+      body?: {
+'file': Blob;
+}
 }
 
-export function registerHrRecruiter(http: HttpClient, rootUrl: string, params: RegisterHrRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, registerHrRecruiter.PATH, 'post');
+export function uploadCandidacyFiles(http: HttpClient, rootUrl: string, params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, uploadCandidacyFiles.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('candidacy_id', params.candidacy_id, {});
+    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function registerHrRecruiter(http: HttpClient, rootUrl: string, params: R
   );
 }
 
-registerHrRecruiter.PATH = '/api/v1/auth/register-hr-recruiter';
+uploadCandidacyFiles.PATH = '/api/v1/candidate/files/{candidacy_id}';

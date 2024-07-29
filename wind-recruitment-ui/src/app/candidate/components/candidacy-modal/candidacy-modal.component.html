@@ -8,12 +8,16 @@
   [maximizable]="true">
 
 
-  <form [formGroup]="candidacyApplication">
-    <div class="flex flex-column gap-4" >
+  <form>
+    <div class="flex flex-column gap-4 mb-3" >
       <p-dropdown
-        formControlName="topic"
         [options]="topics"
-        placeholder="Select a Topic" />
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a Topic"
+        [(ngModel)]="candidacyReq.topic_id"
+        name="topic_id"
+      />
 
       <div class="custom-file-upload">
         <label for="file-upload" class="file-upload-label">

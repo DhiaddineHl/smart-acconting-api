@@ -6,14 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ManagerRegisterRequest } from '../../models/manager-register-request';
+import { RecruiterRegisterRequest } from '../../models/recruiter-register-request';
 
-export interface RegisterTechnicalRecruiter$Params {
-      body: ManagerRegisterRequest
+export interface RegisterRecruiter$Params {
+      body: RecruiterRegisterRequest
 }
 
-export function registerTechnicalRecruiter(http: HttpClient, rootUrl: string, params: RegisterTechnicalRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, registerTechnicalRecruiter.PATH, 'post');
+export function registerRecruiter(http: HttpClient, rootUrl: string, params: RegisterRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, registerRecruiter.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -28,4 +28,4 @@ export function registerTechnicalRecruiter(http: HttpClient, rootUrl: string, pa
   );
 }
 
-registerTechnicalRecruiter.PATH = '/api/v1/auth/register-tech-recruiter';
+registerRecruiter.PATH = '/api/v1/auth/register-recruiter';

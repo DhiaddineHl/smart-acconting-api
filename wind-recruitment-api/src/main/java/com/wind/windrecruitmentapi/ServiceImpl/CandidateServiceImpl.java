@@ -13,6 +13,7 @@ import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyStatus;
 import com.wind.windrecruitmentapi.utils.files.FileStorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,7 @@ import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CandidateServiceImpl implements CandidateService {
 
     private final CandidaciesRepository repository;
@@ -37,7 +39,7 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findById(jwtToken.getUser().getId()).orElseThrow();
     }
     @Override
-    public void postCandidacy(CandidacyRequest request, String authenticationHeader) {
+    public Integer postCandidacy(CandidacyRequest request, String authenticationHeader) {
 
         Locale locale = new Locale("fr", "FR");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
@@ -52,15 +54,20 @@ public class CandidateServiceImpl implements CandidateService {
                 .status(CandidacyStatus.PENDING)
                 .build();
 
-        repository.save(candidacy);
+        return repository.save(candidacy).getId();
 
     }
 
     @Override
     public void uploadCandidacyFiles(Integer candidacyId, MultipartFile file) {
         Candidacy candidacy = candidaciesRepository.findById(candidacyId)
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("no candidacy found"));
+
         var candidacyFile = fileStorageService.saveFile(file, candidacyId);
+        if (candidacyFile.isEmpty()){
+            log.warn("no file saved");
+        }
+
         candidacy.setFile_url(candidacyFile);
         candidaciesRepository.save(candidacy);
     }

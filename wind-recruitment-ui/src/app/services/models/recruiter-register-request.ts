@@ -1,10 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-export interface CandidateRegisterRequest {
+export interface RecruiterRegisterRequest {
+  company?: string;
   email?: string;
   first_name?: string;
   last_name?: string;
   password?: string;
   phone_number?: string;
-  university?: string;
+  recruiter_type?: string;
+  speciality?: string;
 }

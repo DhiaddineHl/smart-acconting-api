@@ -18,40 +18,38 @@ import { refreshToken } from '../fn/authentication-controller/refresh-token';
 import { RefreshToken$Params } from '../fn/authentication-controller/refresh-token';
 import { registerCandidate } from '../fn/authentication-controller/register-candidate';
 import { RegisterCandidate$Params } from '../fn/authentication-controller/register-candidate';
-import { registerHrRecruiter } from '../fn/authentication-controller/register-hr-recruiter';
-import { RegisterHrRecruiter$Params } from '../fn/authentication-controller/register-hr-recruiter';
 import { registerManager } from '../fn/authentication-controller/register-manager';
 import { RegisterManager$Params } from '../fn/authentication-controller/register-manager';
-import { registerTechnicalRecruiter } from '../fn/authentication-controller/register-technical-recruiter';
-import { RegisterTechnicalRecruiter$Params } from '../fn/authentication-controller/register-technical-recruiter';
+import { registerRecruiter } from '../fn/authentication-controller/register-recruiter';
+import { RegisterRecruiter$Params } from '../fn/authentication-controller/register-recruiter';
 
 @Injectable({ providedIn: 'root' })
-export class AuthenticationService extends BaseService {
+export class AuthenticationControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
 
-  /** Path part for operation `registerTechnicalRecruiter()` */
-  static readonly RegisterTechnicalRecruiterPath = '/api/v1/auth/register-tech-recruiter';
+  /** Path part for operation `registerRecruiter()` */
+  static readonly RegisterRecruiterPath = '/api/v1/auth/register-recruiter';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `registerTechnicalRecruiter()` instead.
+   * To access only the response body, use `registerRecruiter()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  registerTechnicalRecruiter$Response(params: RegisterTechnicalRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return registerTechnicalRecruiter(this.http, this.rootUrl, params, context);
+  registerRecruiter$Response(params: RegisterRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return registerRecruiter(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `registerTechnicalRecruiter$Response()` instead.
+   * To access the full response (for headers, for example), `registerRecruiter$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  registerTechnicalRecruiter(params: RegisterTechnicalRecruiter$Params, context?: HttpContext): Observable<void> {
-    return this.registerTechnicalRecruiter$Response(params, context).pipe(
+  registerRecruiter(params: RegisterRecruiter$Params, context?: HttpContext): Observable<void> {
+    return this.registerRecruiter$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
@@ -77,31 +75,6 @@ export class AuthenticationService extends BaseService {
    */
   registerManager(params: RegisterManager$Params, context?: HttpContext): Observable<void> {
     return this.registerManager$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
-  /** Path part for operation `registerHrRecruiter()` */
-  static readonly RegisterHrRecruiterPath = '/api/v1/auth/register-hr-recruiter';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `registerHrRecruiter()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  registerHrRecruiter$Response(params: RegisterHrRecruiter$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return registerHrRecruiter(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `registerHrRecruiter$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  registerHrRecruiter(params: RegisterHrRecruiter$Params, context?: HttpContext): Observable<void> {
-    return this.registerHrRecruiter$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
