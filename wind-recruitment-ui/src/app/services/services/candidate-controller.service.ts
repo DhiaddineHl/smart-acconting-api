@@ -30,7 +30,7 @@ export class CandidateControllerService extends BaseService {
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
   uploadCandidacyFiles$Response(params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return uploadCandidacyFiles(this.http, this.rootUrl, params, context);
+    return uploadCandidacyFiles(this.http, this.config.rootUrl, params, context);
   }
 
   /**

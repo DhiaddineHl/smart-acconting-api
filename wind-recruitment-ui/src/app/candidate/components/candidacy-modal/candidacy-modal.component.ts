@@ -3,21 +3,14 @@ import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
-import {NonNullableFormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from '@angular/common';
 import {ToastModule} from "primeng/toast";
-import {FileUploadEvent, FileUploadModule} from "primeng/fileupload";
+import {FileUploadModule} from "primeng/fileupload";
 
-import { MessageService } from 'primeng/api';
-
-import {CandidateControllerService} from "../../../services/services/candidate-controller.service";
 import {CandidacyRequest} from "../../../services/models/candidacy-request";
-import {TokenService} from "../../../authentication/services/token/token.service";
+import {CandidaciesServiceService} from "../../../recruiter/services/candidacy/candidacies-service.service";
 
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
 @Component({
   selector: 'app-candidacy-modal',
   standalone: true,
@@ -40,8 +33,7 @@ export class CandidacyModalComponent {
   isVisible: boolean = false;
   selectedFile: any;
   selectedPDF : string | undefined;
-  candidacyService = inject(CandidateControllerService)
-  tokenService = inject(TokenService)
+  candidaciesService = inject(CandidaciesServiceService)
 
   topics = [
     {
@@ -59,26 +51,19 @@ export class CandidacyModalComponent {
     },
   ]
 
-  formBuilder = inject(NonNullableFormBuilder);
-
-  // candidacyApplication = this.formBuilder.group<CandidacyRequest>({
-  //   topic_id: (0)
-  // })
-
   candidacyReq: CandidacyRequest = {
     topic_id : 0
   }
 
   onSubmit() {
     console.log(this.candidacyReq)
-    this.candidacyService.postCandidacy({
-      Authorization : "Bearer " + this.tokenService.getToken("access_token"),
-      body: this.candidacyReq
+    this.candidaciesService.postCandidacy({
+      topic_id: this.candidacyReq.topic_id
     })
       .subscribe({
         next: (candidacy_id) => {
           console.log("candidacy id : ", candidacy_id)
-          this.candidacyService.uploadCandidacyFiles({
+          this.candidaciesService.uploadCandidacyFiles({
             candidacy_id,
             body : {
               file : this.selectedFile

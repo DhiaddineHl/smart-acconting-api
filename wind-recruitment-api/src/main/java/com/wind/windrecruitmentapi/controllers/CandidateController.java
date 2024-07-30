@@ -2,10 +2,13 @@ package com.wind.windrecruitmentapi.controllers;
 
 
 import com.wind.windrecruitmentapi.services.CandidateService;
+import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +39,16 @@ public class CandidateController {
     ){
         log.warn("received the files and started the method execution");
         candidateService.uploadCandidacyFiles(candidacy_id, file);
+    }
+
+    @GetMapping("/myCandidacies")
+    @PreAuthorize("hasAuthority('candidate:get')")
+    public ResponseEntity<PageResponse<CandidacyResponse>> getMyCandidacies(
+            @RequestHeader("Authorization") String authenticationHeader,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "number", defaultValue = "0", required = false) int number
+    ){
+        return ResponseEntity.ok(candidateService.getMyCandidacies(authenticationHeader, size, number));
     }
 
 }

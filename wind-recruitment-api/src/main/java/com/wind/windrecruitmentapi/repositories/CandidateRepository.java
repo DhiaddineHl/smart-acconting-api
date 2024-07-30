@@ -3,5 +3,10 @@ package com.wind.windrecruitmentapi.repositories;
 import com.wind.windrecruitmentapi.entities.Candidate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
+
+    Optional<Candidate> findCandidateByEmail(String email);
+
 }

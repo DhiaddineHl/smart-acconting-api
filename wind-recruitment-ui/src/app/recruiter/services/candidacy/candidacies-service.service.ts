@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core';
 import {TopicResponse} from "../topic/topic-service.service";
 import {Observable} from "rxjs";
 import {StrictHttpResponse} from "../../../services/strict-http-response";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpContext} from "@angular/common/http";
 import {RequestBuilder} from "../../../services/request-builder";
+import {UploadCandidacyFiles$Params} from "../../../services/fn/candidate-controller/upload-candidacy-files";
+import {map} from "rxjs/operators";
+import {ApiConfiguration} from "../../../services/api-configuration";
+import {uploadCandidacyFiles} from "./helpers/upload-candidacy-files-helper";
+
 
 export interface CandidaciesResponsePage{
   content?: Array<CandidacyResponse>;
@@ -35,7 +40,8 @@ export interface CandidaciesResponsePage{
 export class CandidaciesServiceService {
 
   constructor(
-    private http : HttpClient
+    private http : HttpClient,
+    private config: ApiConfiguration
   ) { }
 
   postCandidacy = (request: CandidacyRequest) : Observable<number> => {
@@ -44,17 +50,16 @@ export class CandidaciesServiceService {
     )
   }
 
-  uploadFile = (params: FileUploadRequest) : any => {
+  static readonly UploadCandidacyFilesPath = '/api/v1/candidate/files/{candidacy_id}';
 
-    const request  = new RequestBuilder("http://localhost:8080/api/v1", "/candidate/file/{candidacy_id}", 'post');
-    if (params){
-      request.path('candidacy_id',params['candidacy_id'], {});
-      request.body(params.body, 'multipart/form-data');
-    }
+  uploadCandidacyFiles$Response(params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return uploadCandidacyFiles(this.http, this.config.rootUrl, params, context);
+  }
 
-    return this.http.request(
-      request.build({ responseType: 'json', accept: 'application/json'})
-    )
+  uploadCandidacyFiles(params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<void> {
+    return this.uploadCandidacyFiles$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
   }
 
 }

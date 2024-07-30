@@ -4,6 +4,7 @@ import com.wind.windrecruitmentapi.entities.*;
 import com.wind.windrecruitmentapi.mappers.CandidacyMapper;
 import com.wind.windrecruitmentapi.mappers.TopicMapper;
 import com.wind.windrecruitmentapi.repositories.*;
+import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.RecruiterService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
@@ -31,11 +32,14 @@ public class RecruiterServiceImpl implements RecruiterService {
     private final HRRecruiterRepository hrRepository;
     private final TopicMapper mapper;
     private final CandidacyMapper candidacyMapper;
+    private final JWTService jwtService;
 
     public HRRecruiter findRecruiterWithToken(String authenticationHeader){
         String token = authenticationHeader.substring(7);
-        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
-        return hrRepository.findById(jwtToken.getUser().getId()).orElseThrow();
+        String username = jwtService.extractUsername(token);
+
+//        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
+        return hrRepository.findHRRecruiterByEmail(username).orElseThrow();
     }
 
     @Override
