@@ -5,6 +5,7 @@ import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
+import com.wind.windrecruitmentapi.utils.validations.ValidationResponse;
 import org.springframework.stereotype.Service;
 
 @Service("recruiterService")
@@ -30,7 +31,9 @@ public interface RecruiterService {
 
     void validateCandidacy(Integer candidacyId, String authenticationHeader);
 
-    void getAllValidations();
+    PageResponse<ValidationResponse> getAllValidations();
 
-    void getValidationById(Integer id);
+    ValidationResponse getValidationById(Integer id);
+
+    PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader);
 }

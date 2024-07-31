@@ -13,6 +13,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {TopicCreationRequest, TopicServiceService} from "../../services/topic/topic-service.service";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {TopicTableComponent} from "../topic-table/topic-table.component";
 
 @Component({
   selector: 'app-modal',
@@ -27,7 +28,7 @@ import {MessageService} from "primeng/api";
     InputNumberModule,
     ToastModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, TopicTableComponent],
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css'
 })
@@ -36,6 +37,7 @@ export class ModalComponent {
   formBuilder = inject(NonNullableFormBuilder);
   topicService = inject(TopicServiceService);
   messageService= inject(MessageService);
+  topicTable = inject(TopicTableComponent)
 
   isVisible: boolean = false;
 
@@ -84,6 +86,7 @@ export class ModalComponent {
         next: () => {
           this.hideModal()
           this.showSuccessToast()
+          this.topicTable.ngOnInit()
           console.log("topic created")
         },error: (err) => {
           console.log(err)

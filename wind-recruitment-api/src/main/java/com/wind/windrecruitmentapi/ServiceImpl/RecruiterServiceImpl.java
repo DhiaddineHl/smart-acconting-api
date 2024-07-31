@@ -10,6 +10,7 @@ import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
+import com.wind.windrecruitmentapi.utils.validations.ValidationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -161,12 +162,17 @@ public class RecruiterServiceImpl implements RecruiterService {
     }
 
     @Override
-    public void getAllValidations() {
-
+    public PageResponse<ValidationResponse> getAllValidations() {
+        return null;
     }
 
     @Override
-    public void getValidationById(Integer id) {
+    public ValidationResponse getValidationById(Integer id) {
+        return null;
+    }
 
+    @Override
+    public PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader) {
+        return null;
     }
 }

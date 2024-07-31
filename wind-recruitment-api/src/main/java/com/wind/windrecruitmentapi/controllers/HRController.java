@@ -6,6 +6,7 @@ import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
+import com.wind.windrecruitmentapi.utils.validations.ValidationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -110,16 +111,24 @@ public class HRController {
 
     @GetMapping("/validations")
     @PreAuthorize("hasAuthority('recruiter:read')")
-    public void getAllValidations(){
-        recruiterService.getAllValidations();
+    public ResponseEntity<PageResponse<ValidationResponse>> getAllValidations(){
+        return ResponseEntity.ok(recruiterService.getAllValidations());
     }
 
     @GetMapping("validations/{id}")
     @PreAuthorize("hasAuthority('recruiter:read')")
-    public void getValidationById(
+    public ResponseEntity<ValidationResponse> getValidationById(
             @PathVariable("id") Integer id
     ){
-        recruiterService.getValidationById(id);
+        return ResponseEntity.ok(recruiterService.getValidationById(id));
+    }
+
+    @GetMapping("/validationsByRecruiter")
+    @PreAuthorize("hasAuthority('recruiter:read')")
+    public ResponseEntity<PageResponse<ValidationResponse>> getValidationsByRecruiter(
+            @RequestHeader("Authorization") String authorizationHeader
+    ){
+        return ResponseEntity.ok(recruiterService.getValidationsByRecruiter(authorizationHeader));
     }
 
 }
