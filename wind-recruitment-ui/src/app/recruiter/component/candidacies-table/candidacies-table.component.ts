@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
+import {CandidaciesResponsePage, CandidaciesServiceService} from "../../services/candidacy/candidacies-service.service";
+
 
 @Component({
   selector: 'app-candidacies-table',
@@ -12,7 +14,13 @@ import {TableModule} from "primeng/table";
   templateUrl: './candidacies-table.component.html',
   styleUrl: './candidacies-table.component.css'
 })
-export class CandidaciesTableComponent {
+export class CandidaciesTableComponent implements OnInit{
+
+  candidaciesService = inject(CandidaciesServiceService);
+
+  candidaciesResponse : CandidaciesResponsePage = {};
+  pageSize: number = 5;
+  pageNumber: number = 0;
 
   candidacies = [
     {
@@ -44,5 +52,21 @@ export class CandidaciesTableComponent {
       createdAt: "15/03/2024"
     },
   ]
+
+  getAllCandidacies = () => {
+    this.candidaciesService.getAllCandidacies(this.pageSize, this.pageNumber)
+      .subscribe({
+        next: (response) => {
+          this.candidaciesResponse = response;
+          console.log(this.candidaciesResponse)
+        }, error:(err) => {
+          console.log("error fetching candidacies", err)
+        }
+      })
+  }
+
+  ngOnInit(): void {
+    this.getAllCandidacies()
+  }
 
 }

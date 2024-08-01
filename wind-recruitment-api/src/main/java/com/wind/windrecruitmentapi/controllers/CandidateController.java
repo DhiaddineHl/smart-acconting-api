@@ -42,7 +42,7 @@ public class CandidateController {
     }
 
     @GetMapping("/myCandidacies")
-    @PreAuthorize("hasAuthority('candidate:get')")
+    @PreAuthorize("hasAuthority('candidate:read')")
     public ResponseEntity<PageResponse<CandidacyResponse>> getMyCandidacies(
             @RequestHeader("Authorization") String authenticationHeader,
             @RequestParam(name = "size", defaultValue = "10", required = false) int size,

@@ -1,13 +1,18 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {ProgressBarModule} from "primeng/progressbar";
+import {
+  CandidaciesResponsePage,
+  CandidaciesServiceService
+} from "../../../recruiter/services/candidacy/candidacies-service.service";
+
 
 interface Candidacy {
-  code : string
-  topic: string
-  state: string
-  createdAt: string
-  progress: number
+  code? : string
+  topic?: string
+  state?: string
+  createdAt?: string
+  progress?: number
 }
 
 @Component({
@@ -20,7 +25,13 @@ interface Candidacy {
   templateUrl: './candidacies-table-by-candidate.component.html',
   styleUrl: './candidacies-table-by-candidate.component.css'
 })
-export class CandidaciesTableByCandidateComponent {
+export class CandidaciesTableByCandidateComponent implements OnInit{
+
+  candidaciesService = inject(CandidaciesServiceService);
+  candidaciesByCandidate : CandidaciesResponsePage = {};
+
+  page_size : number = 5;
+  page_number : number = 0;
 
   candidacies : Candidacy[] = [
     {
@@ -52,5 +63,21 @@ export class CandidaciesTableByCandidateComponent {
       progress: 60
     },
   ]
+
+  getMyCandidacies = () => {
+    this.candidaciesService.getMyCandidacies(this.page_size, this.page_number)
+      .subscribe({
+        next: (response) => {
+          this.candidaciesByCandidate = response;
+          console.log(this.candidaciesByCandidate)
+        }, error: (err) => {
+          console.log("error fetching candidacies", err)
+        }
+      })
+  }
+
+  ngOnInit(): void {
+    this.getMyCandidacies()
+  }
 
 }

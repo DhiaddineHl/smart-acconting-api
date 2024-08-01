@@ -87,7 +87,7 @@ export class CandidaciesServiceService {
   }
 
   validateCandidacy = (candidacy_id: number): Observable<StrictHttpResponse<void>> => {
-    return this.http.post(`http://localhost:8080/api/v1/hr/validate-candidacy/${candidacy_id}`, {})
+    return this.http.post<StrictHttpResponse<void>>(`http://localhost:8080/api/v1/hr/validate-candidacy/${candidacy_id}`, {})
   }
 
 }
