@@ -8,9 +8,11 @@ import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.RecruiterService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
+import com.wind.windrecruitmentapi.utils.candidacies.CandidacyStatus;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
 import com.wind.windrecruitmentapi.utils.validations.ValidationResponse;
+import com.wind.windrecruitmentapi.utils.validations.ValidationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,9 +30,9 @@ public class RecruiterServiceImpl implements RecruiterService {
 
     private final TopicRepository repository;
     private final CandidaciesRepository candidaciesRepository;
-    private final TokenRepository tokenRepository;
     private final ValidationRepository validationRepository;
     private final HRRecruiterRepository hrRepository;
+    private final TechnicalRecruiterRepository techRepository;
     private final TopicMapper mapper;
     private final CandidacyMapper candidacyMapper;
     private final JWTService jwtService;
@@ -40,7 +42,18 @@ public class RecruiterServiceImpl implements RecruiterService {
         String username = jwtService.extractUsername(token);
 
 //        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
-        return hrRepository.findHRRecruiterByEmail(username).orElseThrow();
+        return hrRepository.findHRRecruiterByEmail(username).orElseThrow(
+                () -> new IllegalStateException("The user is not authorized to execute such an operation")
+        );
+    }
+    public TechnicalRecruiter findTechRecruiterWithToken(String authenticationHeader){
+        String token = authenticationHeader.substring(7);
+        String username = jwtService.extractUsername(token);
+
+//        Token jwtToken = tokenRepository.findByToken(token).orElseThrow();
+        return techRepository.findTechnicalRecruiterByEmail(username).orElseThrow(
+                () -> new IllegalStateException("The user is not authorized to execute such an operation")
+        );
     }
 
     @Override
@@ -142,7 +155,7 @@ public class RecruiterServiceImpl implements RecruiterService {
     }
 
     @Override
-    public void validateCandidacy(Integer candidacyId, String authenticationHeader) {
+    public void validateCandidacyByHr(Integer candidacyId, String authenticationHeader) {
 
         Candidacy candidacy = candidaciesRepository.findById(candidacyId).orElseThrow();
         HRRecruiter hrRecruiter = findRecruiterWithToken(authenticationHeader);
@@ -151,13 +164,37 @@ public class RecruiterServiceImpl implements RecruiterService {
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
         String date = dateFormat.format(new Date());
 
+        candidacy.setStatus(CandidacyStatus.HR_VALIDATED);
+        candidaciesRepository.save(candidacy);
+
         Validation newValidation = Validation.builder()
                 .candidacy(candidacy)
                 .createdAt(date)
                 .hrRecruiter(hrRecruiter)
+                .status(ValidationStatus.HR_VALIDATED)
                 .build();
 
         validationRepository.save(newValidation);
+
+    }
+
+    @Override
+    public void validateCandidacyByTechnical(Integer candidacyId, String authenticationHeader) {
+        Candidacy candidacy = candidaciesRepository.findById(candidacyId).orElseThrow();
+        TechnicalRecruiter recruiter = findTechRecruiterWithToken(authenticationHeader);
+
+        if (!candidacy.getStatus().equals(CandidacyStatus.HR_VALIDATED)){
+            throw new IllegalStateException("This candidacy is not yet validated by the HR");
+        }
+        candidacy.setStatus(CandidacyStatus.TECH_VALIDATED);
+        candidaciesRepository.save(candidacy);
+
+        Validation validation = validationRepository.findValidationByCandidacy(candidacy)
+                        .orElseThrow(()-> new RuntimeException("No validation found for this candidacy"));
+        validation.setStatus(ValidationStatus.TECHNICAL_VALIDATED);
+        validationRepository.save(validation);
+
+        recruiter.getValidations().add(validation);
 
     }
 
@@ -175,4 +212,6 @@ public class RecruiterServiceImpl implements RecruiterService {
     public PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader) {
         return null;
     }
+
+
 }

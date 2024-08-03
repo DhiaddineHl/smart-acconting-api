@@ -28,8 +28,8 @@ public class Validation {
     @ManyToOne
     private HRRecruiter hrRecruiter;
 
-    @ManyToOne
-    @Nullable
-    private TechnicalRecruiter technicalRecruiter;
+//    @ManyToOne
+//    @Nullable
+//    private TechnicalRecruiter technicalRecruiter;
 
 }

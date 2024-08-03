@@ -21,7 +21,6 @@ public class TechnicalRecruiter extends User{
     private String speciality;
 
     @OneToMany(
-            mappedBy = "technicalRecruiter",
             orphanRemoval = true,
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )

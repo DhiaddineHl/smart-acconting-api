@@ -29,11 +29,13 @@ public interface RecruiterService {
 
     PageResponse<CandidacyResponse> getCandidaciesByCandidate(Integer candidateId);
 
-    void validateCandidacy(Integer candidacyId, String authenticationHeader);
+    void validateCandidacyByHr(Integer candidacyId, String authenticationHeader);
 
     PageResponse<ValidationResponse> getAllValidations();
 
     ValidationResponse getValidationById(Integer id);
 
     PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader);
+
+    void validateCandidacyByTechnical(Integer candidacyId, String authenticationHeader);
 }

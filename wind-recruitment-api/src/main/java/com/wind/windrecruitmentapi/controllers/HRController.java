@@ -100,13 +100,22 @@ public class HRController {
         return ResponseEntity.ok(recruiterService.getCandidaciesByCandidate(candidateId));
     }
 
-    @PostMapping("validate-candidacy/{candidacyId}")
+    @PostMapping("validate-candidacy-hr/{candidacyId}")
     @PreAuthorize("hasAuthority('recruiter:create')")
-    public void validateCandidacy(
+    public void validateCandidacyByHR(
             @PathVariable("candidacyId") Integer candidacyId,
             @RequestHeader("Authorization") String authenticationHeader
     ){
-        recruiterService.validateCandidacy(candidacyId, authenticationHeader);
+        recruiterService.validateCandidacyByHr(candidacyId, authenticationHeader);
+    }
+
+    @PutMapping("validate-candidacy-tech/{candidacyId}")
+    @PreAuthorize("hasAuthority('recruiter:update')")
+    public void validateCandidacyByTechnical(
+            @PathVariable("candidacyId") Integer candidacyId,
+            @RequestHeader("Authorization") String authenticationHeader
+    ){
+        recruiterService.validateCandidacyByTechnical(candidacyId, authenticationHeader);
     }
 
     @GetMapping("/validations")
