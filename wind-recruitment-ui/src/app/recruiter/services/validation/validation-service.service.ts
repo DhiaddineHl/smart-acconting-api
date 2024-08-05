@@ -3,12 +3,13 @@ import {CandidacyResponse} from "../candidacy/candidacies-service.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-interface ValidationResponse{
+export interface ValidationResponse{
   id : number,
-  candidacy: CandidacyResponse
+  candidacy: CandidacyResponse,
+  validatedAt : string
 }
 
-interface ValidationResponsePage {
+export interface ValidationResponsePage {
   content?: Array<ValidationResponse>;
   first?: boolean;
   last?: boolean;
@@ -39,7 +40,7 @@ export class ValidationServiceService {
   }
 
   getValidationsByRecruiter = (size: number, number: number) => {
-    return this.httpClient.get<ValidationResponsePage>("http://localhost:8080/api/v1/hr/validationsByRecriuter", {
+    return this.httpClient.get<ValidationResponsePage>("http://localhost:8080/api/v1/hr/validationsByRecruiter", {
       params: {
         size: size,
         number: number

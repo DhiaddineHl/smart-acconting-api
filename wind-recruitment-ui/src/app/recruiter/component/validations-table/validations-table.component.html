@@ -1,4 +1,4 @@
-<p-table [value]="validation"
+<p-table [value]="validations ? validations : []"
          [tableStyle]="{
          'min-width': '50rem',
          'padding': '1rem'
@@ -7,16 +7,14 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Code</th>
-      <th>Candidate</th>
       <th>Topic</th>
       <th>Validation Date</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-validation>
     <tr>
-      <td>{{ validation.code }}</td>
-      <td>{{ validation.candidate }}</td>
-      <td>{{ validation.topic }}</td>
+      <td>{{ validation.id }}</td>
+      <td>{{ validation.topic.name }}</td>
       <td>{{ validation.validatedAt }}</td>
     </tr>
   </ng-template>

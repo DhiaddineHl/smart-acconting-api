@@ -6,7 +6,7 @@ import {HttpClient, HttpContext} from "@angular/common/http";
 import {UploadCandidacyFiles$Params} from "../../../services/fn/candidate-controller/upload-candidacy-files";
 import {map} from "rxjs/operators";
 import {ApiConfiguration} from "../../../services/api-configuration";
-import {uploadCandidacyFiles} from "./helpers/upload-candidacy-files-helper";
+import {uploadCandidacyFiles} from "./helpers/file-upload-helper";
 
 
 export interface CandidaciesResponsePage{
@@ -18,7 +18,7 @@ export interface CandidaciesResponsePage{
   totalElements?: number;
   totalPages?: number;
 }
- export interface CandidacyResponse {
+export interface CandidacyResponse {
   id: number
   candidate_full_name: string
   topic: TopicResponse
@@ -27,7 +27,7 @@ export interface CandidaciesResponsePage{
   status: string
 }
 
- interface CandidacyRequest {
+interface CandidacyRequest {
   topic_id?: number
 }
 
@@ -39,13 +39,13 @@ export interface CandidaciesResponsePage{
 export class CandidaciesServiceService {
 
   constructor(
-    private http : HttpClient,
-    private config: ApiConfiguration
+      private http : HttpClient,
+      private config: ApiConfiguration
   ) { }
 
   postCandidacy = (request: CandidacyRequest) : Observable<number> => {
     return this.http.post<number>("http://localhost:8080/api/v1/candidate/candidacy",
-    request
+        request
     )
   }
 
@@ -57,7 +57,7 @@ export class CandidaciesServiceService {
 
   uploadCandidacyFiles(params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<void> {
     return this.uploadCandidacyFiles$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+        map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

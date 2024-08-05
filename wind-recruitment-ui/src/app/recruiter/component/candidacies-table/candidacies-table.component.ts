@@ -2,21 +2,25 @@ import {Component, inject, OnInit} from '@angular/core';
 import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {CandidaciesResponsePage, CandidaciesServiceService} from "../../services/candidacy/candidacies-service.service";
+import {Button} from "primeng/button";
+import {FileServiceService} from "../../services/files/file-service.service";
 
 
 @Component({
   selector: 'app-candidacies-table',
   standalone: true,
-    imports: [
-        PrimeTemplate,
-        TableModule
-    ],
+  imports: [
+    PrimeTemplate,
+    TableModule,
+    Button
+  ],
   templateUrl: './candidacies-table.component.html',
   styleUrl: './candidacies-table.component.css'
 })
 export class CandidaciesTableComponent implements OnInit{
 
   candidaciesService = inject(CandidaciesServiceService);
+  fileService = inject(FileServiceService)
 
   candidaciesResponse : CandidaciesResponsePage = {};
   pageSize: number = 5;
@@ -67,6 +71,10 @@ export class CandidaciesTableComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllCandidacies()
+  }
+
+  openCandidateCv(file : Uint8Array){
+    this.fileService.openFile(file)
   }
 
 }

@@ -11,9 +11,9 @@ import {StrictHttpResponse} from "../../../../services/strict-http-response";
 
 export interface UploadCandidacyFiles$Params {
   candidacy_id: number;
-      body?: {
-'file': Blob;
-}
+  body?: {
+    'file': Blob;
+  }
 }
 
 export function uploadCandidacyFiles(http: HttpClient, rootUrl: string, params: UploadCandidacyFiles$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {

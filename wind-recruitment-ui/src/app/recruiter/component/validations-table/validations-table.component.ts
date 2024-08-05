@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
+import {ValidationResponse, ValidationServiceService} from "../../services/validation/validation-service.service";
 
 @Component({
   selector: 'app-validations-table',
@@ -12,7 +13,13 @@ import {TableModule} from "primeng/table";
   templateUrl: './validations-table.component.html',
   styleUrl: './validations-table.component.css'
 })
-export class ValidationsTableComponent {
+export class ValidationsTableComponent implements OnInit{
+
+  validationsService = inject(ValidationServiceService)
+  validations : Array<ValidationResponse> | undefined = [];
+
+  size : number = 10;
+  number : number = 0;
 
   validation = [
     {
@@ -37,5 +44,21 @@ export class ValidationsTableComponent {
       validatedAt: "14/08/2024"
     },
   ]
+
+  getValidation(){
+    this.validationsService.getValidationsByRecruiter(this.size, this.number)
+      .subscribe({
+        next:(response) => {
+          // this.validations = response.content
+          console.log("response", response)
+        }, error:(err) => {
+          console.log("error fetching validations", err)
+        }
+      })
+  }
+
+  ngOnInit(): void {
+    this.getValidation()
+  }
 
 }

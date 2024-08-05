@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
@@ -10,6 +10,8 @@ import {FileUploadModule} from "primeng/fileupload";
 
 import {CandidacyRequest} from "../../../services/models/candidacy-request";
 import {CandidaciesServiceService} from "../../../recruiter/services/candidacy/candidacies-service.service";
+import {TopicResponse, TopicServiceService} from "../../../recruiter/services/topic/topic-service.service";
+
 
 @Component({
   selector: 'app-candidacy-modal',
@@ -28,12 +30,18 @@ import {CandidaciesServiceService} from "../../../recruiter/services/candidacy/c
   templateUrl: './candidacy-modal.component.html',
   styleUrl: './candidacy-modal.component.css',
 })
-export class CandidacyModalComponent {
+export class CandidacyModalComponent implements OnInit{
 
   isVisible: boolean = false;
   selectedFile: any;
   selectedPDF : string | undefined;
+  size: number = 10;
+  number: number = 0;
+
   candidaciesService = inject(CandidaciesServiceService)
+  topicService = inject(TopicServiceService);
+
+  topics_options : Array<TopicResponse> | undefined = [];
 
   topics = [
     {
@@ -81,6 +89,17 @@ export class CandidacyModalComponent {
       })
   }
 
+  getAllTopics(){
+    this.topicService.getAllTopics(this.size, this.number)
+      .subscribe({
+        next:(response)=>{
+          this.topics_options = response.content;
+        },error:(err) => {
+          console.log("error fetching the topics list", err)
+        }
+      })
+  }
+
   onSelectFile(event: any) {
     this.selectedFile = event.target.files[0];
     console.log( "initial selected file", this.selectedFile);
@@ -97,5 +116,10 @@ export class CandidacyModalComponent {
 
     }
 
+  }
+
+  ngOnInit(): void {
+    this.getAllTopics();
+    console.log("topics options", this.topics_options)
   }
 }

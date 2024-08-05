@@ -26,10 +26,7 @@
       </td>
       <td>{{ topic.duration }} Months</td>
       <td>
-        <p-button [link]="true">
-          <i class="pi pi-info-circle" style="font-size: 1rem"></i>
-          Details
-        </p-button>
+        <app-topic-details-modal [topicId]="topic.id" [isManageable]="false" />
       </td>
     </tr>
 

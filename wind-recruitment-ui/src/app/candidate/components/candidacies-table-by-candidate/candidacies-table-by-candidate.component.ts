@@ -5,6 +5,7 @@ import {
   CandidaciesResponsePage,
   CandidaciesServiceService
 } from "../../../recruiter/services/candidacy/candidacies-service.service";
+import {BadgeModule} from "primeng/badge";
 
 
 interface Candidacy {
@@ -20,7 +21,8 @@ interface Candidacy {
   standalone: true,
   imports: [
     TableModule,
-    ProgressBarModule
+    ProgressBarModule,
+    BadgeModule
   ],
   templateUrl: './candidacies-table-by-candidate.component.html',
   styleUrl: './candidacies-table-by-candidate.component.css'

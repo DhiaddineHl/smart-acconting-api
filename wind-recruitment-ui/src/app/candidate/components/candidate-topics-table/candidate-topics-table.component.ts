@@ -4,16 +4,20 @@ import {Button} from "primeng/button";
 import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {TopicResponsePage, TopicServiceService} from "../../../recruiter/services/topic/topic-service.service";
+import {
+  TopicDetailsModalComponent
+} from "../../../recruiter/component/topic-details-modal/topic-details-modal.component";
 
 @Component({
   selector: 'app-candidate-topics-table',
   standalone: true,
-    imports: [
-        BadgeModule,
-        Button,
-        PrimeTemplate,
-        TableModule
-    ],
+  imports: [
+    BadgeModule,
+    Button,
+    PrimeTemplate,
+    TableModule,
+    TopicDetailsModalComponent
+  ],
   templateUrl: './candidate-topics-table.component.html',
   styleUrl: './candidate-topics-table.component.css'
 })

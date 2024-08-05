@@ -1,4 +1,4 @@
-<p-table [value]="candidacies"
+<p-table [value]="candidaciesResponse.content ?  candidaciesResponse.content : []"
          [tableStyle]="{
          'min-width': '50rem',
          'padding': '1rem'
@@ -11,15 +11,19 @@
       <th>Topic</th>
       <th>State</th>
       <th>Creation Date</th>
+      <th>Candidate CV</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-candidacy>
     <tr>
-      <td>{{ candidacy.code }}</td>
-      <td>{{ candidacy.candidate }}</td>
-      <td>{{ candidacy.topic }}</td>
-      <td>{{ candidacy.state }}</td>
+      <td>{{ candidacy.id }}</td>
+      <td>{{ candidacy.candidate_full_name }}</td>
+      <td>{{ candidacy.topic.name }}</td>
+      <td>{{ candidacy.status }}</td>
       <td>{{ candidacy.createdAt }}</td>
+      <td>
+        <p-button label="View CV" (onClick)="openCandidateCv(candidacy.file)" />
+      </td>
     </tr>
   </ng-template>
 </p-table>

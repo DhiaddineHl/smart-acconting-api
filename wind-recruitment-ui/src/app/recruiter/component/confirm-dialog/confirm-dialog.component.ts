@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {DialogModule} from "primeng/dialog";
 import {Button} from "primeng/button";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-confirm-dialog',
@@ -14,6 +15,11 @@ import {Button} from "primeng/button";
 })
 export class ConfirmDialogComponent {
 
+  router = inject(Router)
   isVisible: boolean = false;
 
+  logout() {
+    localStorage.clear();
+    this.router.navigate(["/login"])
+  }
 }

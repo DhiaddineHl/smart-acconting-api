@@ -30,6 +30,7 @@ import {TopicResponse, TopicServiceService} from "../../services/topic/topic-ser
 export class TopicDetailsModalComponent implements OnInit{
 
   @Input({required: true}) topicId = 0;
+  @Input({required: true}) isManageable = true;
 
   topicsService = inject(TopicServiceService);
 

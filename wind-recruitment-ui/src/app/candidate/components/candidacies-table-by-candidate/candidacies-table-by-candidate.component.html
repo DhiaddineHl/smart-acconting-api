@@ -1,4 +1,4 @@
-<p-table [value]="candidacies"
+<p-table [value]="candidaciesByCandidate.content ? candidaciesByCandidate.content : []"
          [tableStyle]="{
          'min-width': '50rem',
          'padding': '1rem'
@@ -15,9 +15,11 @@
   </ng-template>
   <ng-template pTemplate="body" let-candidacy>
     <tr>
-      <td>{{ candidacy.code }}</td>
-      <td>{{ candidacy.topic }}</td>
-      <td>{{ candidacy.state }}</td>
+      <td>{{ candidacy.id }}</td>
+      <td>{{ candidacy.topic.name }}</td>
+      <td>
+        <p-badge [value]="candidacy.status" severity="info" />
+      </td>
       <td>{{ candidacy.createdAt }}</td>
       <td>
         <p-progressBar [value]="candidacy.progress">

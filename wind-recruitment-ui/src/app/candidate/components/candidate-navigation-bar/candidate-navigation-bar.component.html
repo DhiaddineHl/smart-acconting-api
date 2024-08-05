@@ -7,10 +7,15 @@
     <p-button label="Topics" [text]="true" [plain]="true" (onClick)="this.router.navigate(['candidate/topics'])" />
     <p-button label="My candidacies" [text]="true" [plain]="true" (onClick)="this.router.navigate(['candidate/candidacies'])"  />
   </div>
-  <p-avatar
-    label="M"
-    styleClass="mr-2"
-    size="large"
-    shape="circle" />
+  <div>
+    <p-avatar
+      label="M"
+      styleClass="mr-2"
+      size="large"
+      shape="circle"
+      (click)="menu.toggle($event)"
+    />
+    <p-menu #menu [model]="items" [popup]="true" />
+  </div>
 </div>
 
