@@ -17,7 +17,8 @@ public class ValidationMapper implements Function<Validation, ValidationResponse
     public ValidationResponse apply(Validation validation) {
         return new ValidationResponse(
                 validation.getId(),
-                candidacyMapper.apply(validation.getCandidacy())
+                candidacyMapper.apply(validation.getCandidacy()),
+                validation.getCreatedAt()
         );
     }
 }

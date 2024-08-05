@@ -7,6 +7,7 @@ import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 public record ValidationResponse(
 
         Integer id,
-        CandidacyResponse candidacy
+        CandidacyResponse candidacy,
+        String validatedAt
 ) {
 }

@@ -56,7 +56,7 @@ public class HRController {
     }
 
     @GetMapping("topic/{id}")
-    @PreAuthorize("hasAuthority('recruiter:read')")
+    @PreAuthorize("hasAnyAuthority('recruiter:read', 'candidate:read')")
     public ResponseEntity<TopicResponse> getTopicById(
             @PathVariable("id") Integer id
     ){
