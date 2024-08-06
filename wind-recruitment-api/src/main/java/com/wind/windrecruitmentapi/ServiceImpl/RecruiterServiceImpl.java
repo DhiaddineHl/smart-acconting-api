@@ -3,6 +3,7 @@ package com.wind.windrecruitmentapi.ServiceImpl;
 import com.wind.windrecruitmentapi.entities.*;
 import com.wind.windrecruitmentapi.mappers.CandidacyMapper;
 import com.wind.windrecruitmentapi.mappers.TopicMapper;
+import com.wind.windrecruitmentapi.mappers.ValidationMapper;
 import com.wind.windrecruitmentapi.repositories.*;
 import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.RecruiterService;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -35,6 +37,7 @@ public class RecruiterServiceImpl implements RecruiterService {
     private final TechnicalRecruiterRepository techRepository;
     private final TopicMapper mapper;
     private final CandidacyMapper candidacyMapper;
+    private final ValidationMapper validationMapper;
     private final JWTService jwtService;
 
     public HRRecruiter findRecruiterWithToken(String authenticationHeader){
@@ -195,22 +198,64 @@ public class RecruiterServiceImpl implements RecruiterService {
         validationRepository.save(validation);
 
         recruiter.getValidations().add(validation);
+        techRepository.save(recruiter);
 
     }
 
+    public PageResponse<ValidationResponse> getValidationResponse(Page<Validation> validations){
+
+        var validationsResponses = validations.stream().map(validationMapper).toList();
+
+        return new PageResponse<ValidationResponse>(
+                validationsResponses,
+                validations.getNumber(),
+                validationsResponses.size(),
+                validations.getTotalElements(),
+                validations.getTotalPages(),
+                validations.isFirst(),
+                validations.isLast()
+        );
+    }
+
     @Override
-    public PageResponse<ValidationResponse> getAllValidations() {
-        return null;
+    public PageResponse<ValidationResponse> getAllValidations(int size, int number) {
+
+        Pageable pageable = PageRequest.of(number, size);
+        Page<Validation> validations = validationRepository.findAll(pageable);
+
+        return getValidationResponse(validations);
     }
 
     @Override
     public ValidationResponse getValidationById(Integer id) {
-        return null;
+        return validationRepository.findById(id)
+                .map(validationMapper)
+                .orElseThrow();
     }
 
     @Override
-    public PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader) {
-        return null;
+    public PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader, int size, int number) {
+
+        String token = authorizationHeader.substring(7);
+        String username = jwtService.extractUsername(token);
+
+        Pageable pageable = PageRequest.of(number, size);
+
+
+        if (hrRepository.existsByEmail(username)){
+            HRRecruiter recruiter = hrRepository.findHRRecruiterByEmail(username)
+                    .orElseThrow();
+            Page<Validation> validations = validationRepository.findValidationByHrRecruiter(recruiter, pageable);
+            return getValidationResponse(validations);
+        } else if (techRepository.existsByEmail(username)) {
+            TechnicalRecruiter recruiter = techRepository.findTechnicalRecruiterByEmail(username)
+                    .orElseThrow();
+            Page<Validation> validations = validationRepository.findValidationsByTechnicalRecruiter(recruiter, pageable);
+            return getValidationResponse(validations);
+        }else {
+            throw new RuntimeException("The logged in user is not allowed to access such data");
+        }
+
     }
 
 

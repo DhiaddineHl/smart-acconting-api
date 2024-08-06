@@ -9,4 +9,6 @@ public interface HRRecruiterRepository extends JpaRepository<HRRecruiter, Intege
 
     Optional<HRRecruiter> findHRRecruiterByEmail(String email);
 
+    boolean existsByEmail(String email);
+
 }

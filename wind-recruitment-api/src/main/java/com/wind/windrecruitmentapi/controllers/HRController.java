@@ -120,8 +120,11 @@ public class HRController {
 
     @GetMapping("/validations")
     @PreAuthorize("hasAuthority('recruiter:read')")
-    public ResponseEntity<PageResponse<ValidationResponse>> getAllValidations(){
-        return ResponseEntity.ok(recruiterService.getAllValidations());
+    public ResponseEntity<PageResponse<ValidationResponse>> getAllValidations(
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "number", defaultValue = "0", required = false) int number
+    ){
+        return ResponseEntity.ok(recruiterService.getAllValidations(size, number));
     }
 
     @GetMapping("validations/{id}")
@@ -135,9 +138,11 @@ public class HRController {
     @GetMapping("/validationsByRecruiter")
     @PreAuthorize("hasAuthority('recruiter:read')")
     public ResponseEntity<PageResponse<ValidationResponse>> getValidationsByRecruiter(
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            @RequestParam(name = "number", defaultValue = "0", required = false) int number,
             @RequestHeader("Authorization") String authorizationHeader
     ){
-        return ResponseEntity.ok(recruiterService.getValidationsByRecruiter(authorizationHeader));
+        return ResponseEntity.ok(recruiterService.getValidationsByRecruiter(authorizationHeader, size, number));
     }
 
 }

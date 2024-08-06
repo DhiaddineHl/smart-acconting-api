@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface TechnicalRecruiterRepository extends JpaRepository<TechnicalRecruiter, Integer> {
 
     Optional<TechnicalRecruiter> findTechnicalRecruiterByEmail(String email);
+    boolean existsByEmail(String email);
 
 }

@@ -31,11 +31,11 @@ public interface RecruiterService {
 
     void validateCandidacyByHr(Integer candidacyId, String authenticationHeader);
 
-    PageResponse<ValidationResponse> getAllValidations();
+    PageResponse<ValidationResponse> getAllValidations(int size, int number);
 
     ValidationResponse getValidationById(Integer id);
 
-    PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader);
+    PageResponse<ValidationResponse> getValidationsByRecruiter(String authorizationHeader, int size, int number);
 
     void validateCandidacyByTechnical(Integer candidacyId, String authenticationHeader);
 }
