@@ -78,6 +78,16 @@ export class CandidaciesTableByCandidateComponent implements OnInit{
       })
   }
 
+  getBudgeSeverity = (status: string) :"success" | "info" | "warning" | "danger" | "help" | "primary" | "secondary" | "contrast" | undefined  => {
+    switch (status){
+      case "pending": return "warning";
+      case "tech_validated": return "primary";
+      case "hr_validated": return "info";
+      case "accepted": return "success";
+      default: return undefined;
+    }
+  }
+
   ngOnInit(): void {
     this.getMyCandidacies()
   }

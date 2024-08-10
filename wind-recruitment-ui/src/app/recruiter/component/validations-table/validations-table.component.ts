@@ -49,7 +49,7 @@ export class ValidationsTableComponent implements OnInit{
     this.validationsService.getValidationsByRecruiter(this.size, this.number)
       .subscribe({
         next:(response) => {
-          // this.validations = response.content
+          this.validations = response.content
           console.log("response", response)
         }, error:(err) => {
           console.log("error fetching validations", err)

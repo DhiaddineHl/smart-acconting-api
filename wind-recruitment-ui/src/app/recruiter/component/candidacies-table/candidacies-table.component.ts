@@ -4,6 +4,7 @@ import {TableModule} from "primeng/table";
 import {CandidaciesResponsePage, CandidaciesServiceService} from "../../services/candidacy/candidacies-service.service";
 import {Button} from "primeng/button";
 import {FileServiceService} from "../../services/files/file-service.service";
+import {BadgeModule} from "primeng/badge";
 
 
 @Component({
@@ -12,7 +13,8 @@ import {FileServiceService} from "../../services/files/file-service.service";
   imports: [
     PrimeTemplate,
     TableModule,
-    Button
+    Button,
+    BadgeModule
   ],
   templateUrl: './candidacies-table.component.html',
   styleUrl: './candidacies-table.component.css'
@@ -67,6 +69,29 @@ export class CandidaciesTableComponent implements OnInit{
           console.log("error fetching candidacies", err)
         }
       })
+  }
+
+  validateCandidacy = (candidacy_id: number) => {
+    this.candidaciesService.validateCandidacy(candidacy_id)
+      .subscribe({
+        next : () => {
+          this.ngOnInit();
+          console.log("candidacy validated");
+        },error : (err) => {
+          console.log("error validating the candidacy", err)
+        }
+      })
+  }
+
+
+  getBudgeSeverity = (status: string) :"success" | "info" | "warning" | "danger" | "help" | "primary" | "secondary" | "contrast" | undefined  => {
+    switch (status){
+      case "pending": return "warning";
+      case "tech_validated": return "primary";
+      case "hr_validated": return "info";
+      case "accepted": return "success";
+      default: return undefined;
+    }
   }
 
   ngOnInit(): void {

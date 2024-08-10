@@ -18,7 +18,7 @@
       <td>{{ candidacy.id }}</td>
       <td>{{ candidacy.topic.name }}</td>
       <td>
-        <p-badge [value]="candidacy.status" severity="info" />
+        <p-badge [value]="candidacy.status" [severity]="getBudgeSeverity(candidacy.status)" />
       </td>
       <td>{{ candidacy.createdAt }}</td>
       <td>

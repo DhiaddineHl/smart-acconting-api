@@ -26,7 +26,7 @@ export class CandidateTopicsTableComponent {
   topicsService = inject(TopicServiceService);
 
   topicsResponse : TopicResponsePage = {};
-  size: number = 10;
+  size: number = 5;
   number: number = 0;
 
   getAllTopics = () => {
@@ -40,6 +40,15 @@ export class CandidateTopicsTableComponent {
         console.log(err)
       }
     })
+  }
+
+  severitiesArray = [
+    "success", "info", "warning", "danger", "help", "primary", "secondary", "contrast", undefined
+  ]
+
+  getRandomSeverity = () :"success" | "info" | "warning" | "danger" | "help" | "primary" | "secondary" | "contrast" | undefined => {
+    const randomIndex = Math.floor(Math.random() * this.severitiesArray.length);
+    return this.severitiesArray[randomIndex] as "success" | "info" | "warning" | "danger" | "help" | "primary" | "secondary" | "contrast" | undefined;
   }
 
   ngOnInit(): void {

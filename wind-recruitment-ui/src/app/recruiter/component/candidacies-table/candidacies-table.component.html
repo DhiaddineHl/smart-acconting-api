@@ -12,6 +12,7 @@
       <th>State</th>
       <th>Creation Date</th>
       <th>Candidate CV</th>
+      <th>Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-candidacy>
@@ -19,10 +20,18 @@
       <td>{{ candidacy.id }}</td>
       <td>{{ candidacy.candidate_full_name }}</td>
       <td>{{ candidacy.topic.name }}</td>
-      <td>{{ candidacy.status }}</td>
+      <td>
+        <p-badge [value]="candidacy.status" [severity]="getBudgeSeverity(candidacy.status)" />
+      </td>
       <td>{{ candidacy.createdAt }}</td>
       <td>
-        <p-button label="View CV" (onClick)="openCandidateCv(candidacy.file)" />
+        <p-button label="View CV" [link]="true" (onClick)="openCandidateCv(candidacy.file)" />
+      </td>
+      <td>
+        <div class="flex flex-row gap-2" >
+          <p-button label="Validate" severity="success" (onClick)="validateCandidacy(candidacy.id)"/>
+          <p-button label="Reject" severity="danger"  />
+        </div>
       </td>
     </tr>
   </ng-template>

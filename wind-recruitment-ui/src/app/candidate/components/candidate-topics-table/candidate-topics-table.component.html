@@ -20,7 +20,7 @@
       <td>
         <div class="flex flex-row gap-1" >
           @for (requirement of topic.requirements; track requirement ;let index = $index, e= $even){
-            <p-badge [value]="requirement" severity=success />
+            <p-badge [value]="requirement" [severity]="getRandomSeverity()" />
           }
         </div>
       </td>
