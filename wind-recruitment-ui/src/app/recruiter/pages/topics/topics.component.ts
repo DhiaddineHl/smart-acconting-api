@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {SidebarComponent} from "../../component/sidebar/sidebar.component";
 import {HeaderComponent} from "../../component/header/header.component";
 import {TopicTableComponent} from "../../component/topic-table/topic-table.component";
@@ -15,5 +15,12 @@ import {TopicTableComponent} from "../../component/topic-table/topic-table.compo
   styleUrl: './topics.component.css'
 })
 export class TopicsComponent {
+
+  @ViewChild(TopicTableComponent) topicsTable! : TopicTableComponent;
+
+  onTopicCreated(): void {
+    this.topicsTable.getTopicsByRecruiter();
+  }
+
 
 }

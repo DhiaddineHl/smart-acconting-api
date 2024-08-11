@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
@@ -11,6 +11,8 @@ import {FileUploadModule} from "primeng/fileupload";
 import {CandidacyRequest} from "../../../services/models/candidacy-request";
 import {CandidaciesServiceService} from "../../../recruiter/services/candidacy/candidacies-service.service";
 import {TopicResponse, TopicServiceService} from "../../../recruiter/services/topic/topic-service.service";
+import {MessageService} from "primeng/api";
+import {TopicTableComponent} from "../../../recruiter/component/topic-table/topic-table.component";
 
 
 @Component({
@@ -27,10 +29,13 @@ import {TopicResponse, TopicServiceService} from "../../../recruiter/services/to
     ToastModule,
     FileUploadModule
   ],
+  providers: [MessageService],
   templateUrl: './candidacy-modal.component.html',
   styleUrl: './candidacy-modal.component.css',
 })
 export class CandidacyModalComponent implements OnInit{
+
+  @Output() candidacySubmitted = new EventEmitter<void>();
 
   isVisible: boolean = false;
   selectedFile: any;
@@ -40,27 +45,21 @@ export class CandidacyModalComponent implements OnInit{
 
   candidaciesService = inject(CandidaciesServiceService)
   topicService = inject(TopicServiceService);
+  messageService = inject(MessageService);
 
   topics_options : Array<TopicResponse> | undefined = [];
 
-  topics = [
-    {
-      id: 1,
-      name: "topic1"
-    },{
-      id: 2,
-      name: "topic2"
-    },{
-      id: 3,
-      name: "topic3"
-    },{
-      id: 4,
-      name: "topic4"
-    },
-  ]
 
   candidacyReq: CandidacyRequest = {
     topic_id : 0
+  }
+
+
+  hideModal() {
+    this.isVisible = false
+  }
+  showSuccessToast(){
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Topic created' });
   }
 
   onSubmit() {
@@ -78,7 +77,10 @@ export class CandidacyModalComponent implements OnInit{
             }
           }).subscribe({
             next :() => {
-              console.log("file uploaded successfully")
+              console.log("file uploaded successfully");
+              this.candidacySubmitted.emit();
+              this.hideModal();
+              this.showSuccessToast()
             }, error: (err : ErrorEvent) => {
             console.log("error uploading files: ", err)
           }

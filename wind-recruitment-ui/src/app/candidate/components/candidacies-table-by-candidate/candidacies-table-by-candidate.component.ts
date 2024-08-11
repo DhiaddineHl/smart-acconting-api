@@ -32,7 +32,7 @@ export class CandidaciesTableByCandidateComponent implements OnInit{
   candidaciesService = inject(CandidaciesServiceService);
   candidaciesByCandidate : CandidaciesResponsePage = {};
 
-  page_size : number = 5;
+  page_size : number = 10;
   page_number : number = 0;
 
   candidacies : Candidacy[] = [

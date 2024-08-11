@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {CandidaciesTableComponent} from "../../../recruiter/component/candidacies-table/candidacies-table.component";
 import {HeaderComponent} from "../../../recruiter/component/header/header.component";
 import {SidebarComponent} from "../../../recruiter/component/sidebar/sidebar.component";
@@ -33,5 +33,11 @@ import {CandidacyModalComponent} from "../../components/candidacy-modal/candidac
   styleUrl: './candidacies-page.component.css'
 })
 export class CandidaciesPageComponent {
+
+  @ViewChild(CandidaciesTableByCandidateComponent) candidaciesTable! : CandidaciesTableByCandidateComponent;
+
+  onNewCandidacySubmitted():void {
+    this.candidaciesTable.getMyCandidacies();
+  }
 
 }

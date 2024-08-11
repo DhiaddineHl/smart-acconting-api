@@ -1,4 +1,4 @@
-import {Component, importProvidersFrom, inject} from '@angular/core';
+import {Component, EventEmitter, importProvidersFrom, inject, Output} from '@angular/core';
 import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {InputTextModule} from "primeng/inputtext";
@@ -29,6 +29,8 @@ import {ToastModule} from "primeng/toast";
   styleUrl: './registering-modal.component.css'
 })
 export class RegisteringModalComponent {
+
+  @Output() employeeRegistered = new EventEmitter<void>();
 
   formBuilder = inject(NonNullableFormBuilder);
   authenticationService = inject(AuthenticationService);
@@ -66,6 +68,7 @@ export class RegisteringModalComponent {
         console.log("recruiter registered successfully")
         this.hideModal()
         this.showSuccessToast()
+        this.employeeRegistered.emit();
       },error: (err) => {
         console.log(err)
     }

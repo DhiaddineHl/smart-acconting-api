@@ -1,7 +1,7 @@
 <app-candidate-navigation-bar/>
 <div class="flex flex-row justify-content-between p-4" >
   <app-searchbar />
-  <app-candidacy-modal />
+  <app-candidacy-modal (candidacySubmitted)="onNewCandidacySubmitted()" />
 </div>
 <app-candidacies-table-by-candidate />
 

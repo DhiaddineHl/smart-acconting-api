@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {StrictHttpResponse} from "../../../services/strict-http-response";
@@ -33,6 +33,8 @@ export interface TopicResponsePage{
 export class TopicServiceService {
 
   constructor(private httpClient: HttpClient) { }
+
+  topicsByRecruiterSignal = signal<TopicResponsePage>({})
 
   createTopic = (request: TopicCreationRequest) : Observable<StrictHttpResponse<void>> => {
     return this.httpClient.post<StrictHttpResponse<void>>("http://localhost:8080/api/v1/hr/topic", request)

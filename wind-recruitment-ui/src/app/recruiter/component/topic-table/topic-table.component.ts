@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal, WritableSignal} from '@angular/core';
 import {TableModule} from "primeng/table";
 import {Button} from "primeng/button";
 import {TopicResponse, TopicResponsePage, TopicServiceService} from "../../services/topic/topic-service.service";
@@ -22,6 +22,8 @@ export class TopicTableComponent implements OnInit{
   topicsService = inject(TopicServiceService);
 
   topicsResponse : TopicResponsePage = {};
+  topics: WritableSignal<TopicResponsePage> = signal({});
+
   size: number = 10;
   number: number = 0;
 
@@ -30,7 +32,7 @@ export class TopicTableComponent implements OnInit{
       this.number, this.size
     ).subscribe({
       next: (response) => {
-        this.topicsResponse = response
+        this.topics.set(response);
         console.log(response.content)
       }, error: (err) => {
         console.log(err)
@@ -50,7 +52,6 @@ export class TopicTableComponent implements OnInit{
   ngOnInit(): void {
     this.getTopicsByRecruiter()
   }
-
 
 
 }

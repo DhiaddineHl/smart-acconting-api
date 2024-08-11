@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Button} from "primeng/button";
 import {SearchbarComponent} from "../searchbar/searchbar.component";
 import {ModalComponent} from "../modal/modal.component";
@@ -19,5 +19,11 @@ export class HeaderComponent {
   @Input({required: true}) title = '' ;
 
   @Input() AddButton: boolean = false;
+
+  @Output() topicCreated = new EventEmitter<void>();
+
+  onTopicCreated():void {
+    this.topicCreated.emit();
+  }
 
 }

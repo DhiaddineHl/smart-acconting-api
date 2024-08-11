@@ -1,4 +1,4 @@
-<p-table [value]="topicsResponse.content ? topicsResponse.content : []"
+<p-table [value]="topics()?.content || []"
          [tableStyle]="{
          'min-width': '50rem',
          'padding': '1rem'

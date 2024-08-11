@@ -11,7 +11,7 @@
       <app-searchbar />
     </div>
     @if (AddButton){
-      <app-modal />
+      <app-modal (topicCreated)="onTopicCreated()" />
     }
   </div>
 

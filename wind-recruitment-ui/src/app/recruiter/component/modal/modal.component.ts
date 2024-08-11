@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {Button} from "primeng/button";
 import {DialogModule} from "primeng/dialog";
 import {
@@ -33,6 +33,8 @@ import {TopicTableComponent} from "../topic-table/topic-table.component";
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
+
+  @Output() topicCreated =  new EventEmitter<void>();
 
   formBuilder = inject(NonNullableFormBuilder);
   topicService = inject(TopicServiceService);
@@ -86,7 +88,7 @@ export class ModalComponent {
         next: () => {
           this.hideModal()
           this.showSuccessToast()
-          this.topicTable.ngOnInit()
+          this.topicCreated.emit();
           console.log("topic created")
         },error: (err) => {
           console.log(err)
