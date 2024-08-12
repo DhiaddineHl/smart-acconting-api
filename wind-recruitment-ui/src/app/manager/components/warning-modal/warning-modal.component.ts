@@ -20,5 +20,10 @@ export class WarningModalComponent {
     "success" | "info" | "warning" | "danger" | "help" | "primary" | "secondary" | "contrast" | null | undefined;
   @Input({required: true}) message: string = "";
   @Input({required: true}) label: string = "";
+  @Input({required: true}) modalHeader: string = "";
+
+
+
+
 
 }

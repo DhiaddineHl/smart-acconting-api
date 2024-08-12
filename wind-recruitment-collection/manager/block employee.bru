@@ -5,7 +5,11 @@ meta {
 }
 
 put {
-  url: http://localhost:8080/api/v1/manager/block-employee/{{id}}
+  url: http://localhost:8080/api/v1/manager/block-employee/103
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwcm9qZWN0c0BqZWVuaXNvLmNvbSIsImlhdCI6MTcyMzQ2MjQ3OSwiZXhwIjoxNzIzNTQ4ODc5fQ.Dhgvc9gmoQLbkUOmSmRFf5wZe1KsBgLslMB9NbHpQxg
 }

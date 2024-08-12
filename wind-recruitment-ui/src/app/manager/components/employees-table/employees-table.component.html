@@ -42,9 +42,9 @@
       </td>
       <td>
         @if (employee.account_state){
-          <app-warning-modal label="Block" severity="danger" message="Are you sure that you want to block this employee ?" />
+          <p-button label="Block" severity="danger" size="small" (onClick)="onBlock(employee.id)" />
         } @else {
-          <app-warning-modal label="Activate" severity="success" message="Are you sure that you want to activate this employee ?" />
+          <p-button label="Activate" severity="success" size="small" (onClick)="onActivate(employee.id)" />
         }
       </td>
     </tr>

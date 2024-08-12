@@ -21,7 +21,6 @@ import {EmployeeService, EmployeesResponsePage} from "../../services/employee/em
 })
 export class EmployeesPageComponent implements OnInit{
 
-  @ViewChild(EmployeesTableComponent) employeesTable! :EmployeesTableComponent;
 
   size:number = 10;
   number: number = 0;
@@ -55,6 +54,11 @@ export class EmployeesPageComponent implements OnInit{
         console.log("error fetching technical recruiters", err)
       }
     })
+  }
+
+  loadEmployees = () => {
+    this.getAllHRRecruiter();
+    this.getAllTechnicalRecruiter()
   }
 
   ngOnInit(): void {

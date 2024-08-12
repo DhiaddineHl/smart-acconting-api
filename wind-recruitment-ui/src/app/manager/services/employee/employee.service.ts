@@ -48,6 +48,14 @@ export class EmployeeService {
     })
   }
 
+  blockEmployee(employee_id : number) : Observable<void>{
+    return this.client.put<void>(`http://localhost:8080/api/v1/manager/block-employee/${employee_id}`, {})
+  }
+
+  activateEmployee(employee_id: number) : Observable<void>{
+    return this.client.put<void>(`http://localhost:8080/api/v1/manager/enable-employee/${employee_id}`, {})
+  }
+
 
 
 }
