@@ -1,6 +1,12 @@
 <app-navigation-bar />
 <div class="flex flex-row justify-content-between p-4" >
-  <app-searchbar />
   <app-registering-modal />
 </div>
-<app-employees-table />
+<p-tabView>
+  <p-tabPanel header="Human resources" >
+    <app-employees-table [employeesData]="hrResponse" />
+  </p-tabPanel>
+  <p-tabPanel header="Technical">
+    <app-employees-table [employeesData]="technicalResponse" />
+  </p-tabPanel>
+</p-tabView>

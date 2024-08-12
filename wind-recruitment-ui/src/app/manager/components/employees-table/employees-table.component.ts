@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {PrimeTemplate} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {BadgeModule} from "primeng/badge";
 import {Button} from "primeng/button";
 import {WarningModalComponent} from "../warning-modal/warning-modal.component";
+import {IconFieldModule} from "primeng/iconfield";
+import {InputIconModule} from "primeng/inputicon";
+import {InputTextModule} from "primeng/inputtext";
+import {EmployeesResponsePage} from "../../services/employee/employee.service";
 
 @Component({
   selector: 'app-employees-table',
@@ -13,12 +17,17 @@ import {WarningModalComponent} from "../warning-modal/warning-modal.component";
     TableModule,
     BadgeModule,
     Button,
-    WarningModalComponent
+    WarningModalComponent,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
   ],
   templateUrl: './employees-table.component.html',
   styleUrl: './employees-table.component.css'
 })
 export class EmployeesTableComponent {
+
+  @Input({required: true}) employeesData : EmployeesResponsePage = {};
 
   employees = [
     {

@@ -1,9 +1,22 @@
-<p-table [value]="employees"
+<p-table [value]="employeesData.content || []"
          [tableStyle]="{
          'min-width': '50rem',
          'padding': '1rem'
          }"
 >
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <p-iconField iconPosition="left" class="ml-auto">
+        <p-inputIcon>
+          <i class="pi pi-search"></i>
+        </p-inputIcon>
+        <input
+          pInputText
+          type="text"
+          placeholder="Search keyword" />
+      </p-iconField>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th>id</th>
@@ -21,14 +34,14 @@
       <td>{{ employee.email }}</td>
       <td>{{ employee.speciality }}</td>
       <td>
-        @if (employee.accountVerified){
+        @if (employee.account_state){
           <p-badge value="Active" severity="success" />
         } @else {
           <p-badge value="Blocked" severity="warning" />
         }
       </td>
       <td>
-        @if (employee.accountVerified){
+        @if (employee.account_state){
           <app-warning-modal label="Block" severity="danger" message="Are you sure that you want to block this employee ?" />
         } @else {
           <app-warning-modal label="Activate" severity="success" message="Are you sure that you want to activate this employee ?" />

@@ -5,7 +5,11 @@ meta {
 }
 
 delete {
-  url: http://localhost:8080/api/v1/hr/topic/1
+  url: http://localhost:8080/api/v1/hr/topic/203
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoci1yZWNydWl0ZXJAbWFpbC5jb20iLCJpYXQiOjE3MjM0MDI5NDYsImV4cCI6MTcyMzQ4OTM0Nn0.URUSfYV4tfA1myzSGfZU2Ty0WbOD17w18UeYPdBtoZU
 }
