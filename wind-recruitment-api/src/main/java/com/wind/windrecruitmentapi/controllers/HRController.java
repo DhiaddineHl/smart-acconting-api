@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('RECRUITER')")
 public class HRController {
 
+    //todo: add the controllers of searching by name
+    //todo : add the cv skills extracting feature
+    //todo: candidacy rejection feature
+
     private final RecruiterService recruiterService;
 
     @PostMapping("/topic")

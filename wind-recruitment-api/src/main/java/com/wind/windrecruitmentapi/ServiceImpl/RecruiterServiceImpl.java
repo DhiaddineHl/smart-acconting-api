@@ -30,6 +30,8 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class RecruiterServiceImpl implements RecruiterService {
 
+    //todo: handle exception
+
     private final TopicRepository repository;
     private final CandidaciesRepository candidaciesRepository;
     private final ValidationRepository validationRepository;

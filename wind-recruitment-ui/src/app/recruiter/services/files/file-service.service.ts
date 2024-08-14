@@ -13,7 +13,9 @@ export class FileServiceService {
 
   openFile(byteArray: Uint8Array): void {
     const blob = this.byteArrayToBlob(byteArray);
+    console.log("test",blob)
     const url = URL.createObjectURL(blob)
+    console.log("url",url)
     window.open(url, '_blank');
   }
 

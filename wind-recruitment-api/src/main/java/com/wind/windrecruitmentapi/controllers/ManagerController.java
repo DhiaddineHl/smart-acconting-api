@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('MANAGER')")
 public class ManagerController {
 
+    //todo: statistics and dashboard information
+
     private final ManagerService managerService;
 
     @GetMapping("/employees/hr")

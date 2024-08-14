@@ -33,6 +33,8 @@ import java.util.Locale;
 @Slf4j
 public class CandidateServiceImpl implements CandidateService {
 
+    //todo: handle exception
+
     private final CandidaciesRepository repository;
     private final TokenRepository tokenRepository;
     private final CandidateRepository candidateRepository;

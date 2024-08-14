@@ -35,6 +35,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
+    //todo: handle exception
+
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;

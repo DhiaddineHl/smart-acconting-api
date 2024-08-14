@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
 
+    //todo: handle exception
+
     private final HRRecruiterRepository hrRecruiterRepository;
     private final TechnicalRecruiterRepository technicalRecruiterRepository;
     private final HRMapper hrMapper;

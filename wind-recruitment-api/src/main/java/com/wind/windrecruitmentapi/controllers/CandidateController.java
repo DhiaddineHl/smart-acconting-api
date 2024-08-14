@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class CandidateController {
 
+    //todo: notification feature after validating candidacy
+
     private final CandidateService candidateService;
 
     @PostMapping("/candidacy")
