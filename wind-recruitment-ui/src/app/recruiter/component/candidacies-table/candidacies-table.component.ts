@@ -5,6 +5,7 @@ import {CandidaciesResponsePage, CandidaciesServiceService} from "../../services
 import {Button} from "primeng/button";
 import {FileServiceService} from "../../services/files/file-service.service";
 import {BadgeModule} from "primeng/badge";
+import {PDFViewerComponent} from "../pdfviewer/pdfviewer.component";
 
 
 @Component({
@@ -14,7 +15,8 @@ import {BadgeModule} from "primeng/badge";
     PrimeTemplate,
     TableModule,
     Button,
-    BadgeModule
+    BadgeModule,
+    PDFViewerComponent
   ],
   templateUrl: './candidacies-table.component.html',
   styleUrl: './candidacies-table.component.css'
@@ -36,6 +38,37 @@ export class CandidaciesTableComponent implements OnInit{
           console.log(this.candidaciesResponse)
         }, error:(err) => {
           console.log("error fetching candidacies", err)
+        }
+      })
+  }
+
+  downloadCandidacyFile = (fileName: string) => {
+    this.candidaciesService.downloadFile(fileName)
+      .subscribe({
+        next: (response) => {
+          const url = window.URL.createObjectURL(response);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileName;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+        }, error: (err) => {
+          console.log("File download error: ", err)
+        }
+      })
+  }
+
+  viewCandidacyFile = (fileName: string) => {
+    this.candidaciesService.downloadFile(fileName)
+      .subscribe({
+        next: (response) => {
+          const fileURL = window.URL.createObjectURL(response);
+          window.open(fileURL, '_blank');
+          window.URL.revokeObjectURL(fileURL);
+        }, error: (err) => {
+          console.log("File opening error: ", err)
         }
       })
   }
@@ -65,10 +98,6 @@ export class CandidaciesTableComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllCandidacies()
-  }
-
-  openCandidateCv(file : Uint8Array){
-    this.fileService.openFile(file)
   }
 
 }

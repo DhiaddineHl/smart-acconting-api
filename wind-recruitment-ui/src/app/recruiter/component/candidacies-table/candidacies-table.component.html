@@ -11,7 +11,8 @@
       <th>Topic</th>
       <th>State</th>
       <th>Creation Date</th>
-      <th>Candidate CV</th>
+      <th>View Candidate CV</th>
+      <th>Download Candidate CV</th>
       <th>Actions</th>
     </tr>
   </ng-template>
@@ -25,7 +26,10 @@
       </td>
       <td>{{ candidacy.createdAt }}</td>
       <td>
-        <p-button label="View CV" [link]="true" (onClick)="openCandidateCv(candidacy.file)" />
+        <p-button label="View CV" [link]="true" (onClick)="viewCandidacyFile(candidacy.file_name)" />
+      </td>
+      <td>
+        <p-button label="Download CV" [link]="true" (onClick)="downloadCandidacyFile(candidacy.file_name)" />
       </td>
       <td>
         <div class="flex flex-row gap-2" >

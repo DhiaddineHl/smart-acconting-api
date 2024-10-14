@@ -1,0 +1,15 @@
+<p-button label="View CV" [link]="true" (onClick)="showModal()" />
+<p-dialog
+  header="Topic details"
+  [modal]="true"
+  [(visible)]="isVisible"
+  [style]="{ width: '50rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [maximizable]="true">
+  <pdf-viewer [src]="pdfSrc"
+              [render-text]="true"
+              [original-size]="false"
+              style="width: 400px; height: 500px"
+  ></pdf-viewer>
+
+</p-dialog>

@@ -12,6 +12,7 @@ import {
 import {
   CandidateRegistrationFormComponent
 } from "./authentication/pages/candidate-registration-form/candidate-registration-form.component";
+import {PDFViewerComponent} from "./recruiter/component/pdfviewer/pdfviewer.component";
 
 export const routes: Routes = [
   {path: 'recruiter/topics', component: TopicsComponent},
@@ -29,4 +30,5 @@ export const routes: Routes = [
 
   {path: 'candidate', redirectTo: 'candidate/candidacies'},
   {path: 'recruiter', redirectTo: 'recruiter/topics'},
+
 ];

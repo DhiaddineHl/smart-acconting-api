@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {TopicResponse} from "../topic/topic-service.service";
 import {Observable} from "rxjs";
 import {StrictHttpResponse} from "../../../services/strict-http-response";
-import {HttpClient, HttpContext} from "@angular/common/http";
+import {HttpClient, HttpContext, HttpHeaders} from "@angular/common/http";
 import {UploadCandidacyFiles$Params} from "../../../services/fn/candidate-controller/upload-candidacy-files";
 import {map} from "rxjs/operators";
 import {ApiConfiguration} from "../../../services/api-configuration";
@@ -22,7 +22,9 @@ export interface CandidacyResponse {
   id: number
   candidate_full_name: string
   topic: TopicResponse
-  file: Array<string>
+  // file: Array<string>
+  file_name: string
+  file_url: string
   createdAt: string
   status: string
 }
@@ -88,6 +90,16 @@ export class CandidaciesServiceService {
 
   validateCandidacy = (candidacy_id: number): Observable<StrictHttpResponse<void>> => {
     return this.http.post<StrictHttpResponse<void>>(`http://localhost:8080/api/v1/hr/validate-candidacy-hr/${candidacy_id}`, {})
+  }
+
+  downloadFile(filename: string): Observable<Blob> {
+    const url = `http://localhost:8080/api/v1/hr/candidacies/getFile/${filename}`;
+    return this.http.get(url, {
+      responseType: 'blob',
+      headers: new HttpHeaders({
+        'Accept': 'application/pdf' // Specify the file type
+      })
+    });
   }
 
 }
