@@ -8,7 +8,9 @@ public record CandidacyResponse(
         Integer id,
         String candidate_full_name,
         TopicResponse topic,
-        byte[] file,
+//        byte[] file,
+        String file_url,
+        String file_name,
         String createdAt,
         String status
 

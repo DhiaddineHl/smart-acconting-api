@@ -24,6 +24,7 @@ public class Candidacy {
     private Topic topic;
 
     private String file_url;
+    private String file_name;
 
     private String createdAt;
     private CandidacyStatus status;

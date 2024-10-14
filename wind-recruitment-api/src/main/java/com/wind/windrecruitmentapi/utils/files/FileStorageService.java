@@ -5,11 +5,14 @@ import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -74,5 +77,23 @@ public class FileStorageService {
         }
         return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
+
+    public Resource loadFileAsResource(String fileUrl) {
+        try {
+            Path filePath = new File(fileUrl).toPath();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file from the given URL: " + fileUrl);
+            }
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Malformed URL: " + fileUrl, e);
+        }
+    }
+
+
+
 
 }

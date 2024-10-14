@@ -1,8 +1,7 @@
-package com.wind.windrecruitmentapi.ServiceImpl;
+package com.wind.windrecruitmentapi.serviceImpl;
 
 import com.wind.windrecruitmentapi.entities.Candidacy;
 import com.wind.windrecruitmentapi.entities.Candidate;
-import com.wind.windrecruitmentapi.entities.Token;
 import com.wind.windrecruitmentapi.entities.Topic;
 import com.wind.windrecruitmentapi.mappers.CandidacyMapper;
 import com.wind.windrecruitmentapi.repositories.CandidaciesRepository;
@@ -11,6 +10,7 @@ import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import com.wind.windrecruitmentapi.repositories.TopicRepository;
 import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.CandidateService;
+import com.wind.windrecruitmentapi.services.StorageService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
@@ -43,6 +43,9 @@ public class CandidateServiceImpl implements CandidateService {
     private final FileStorageService fileStorageService;
     private final CandidacyMapper candidacyMapper;
     private final JWTService jwtService;
+    private final StorageService storageService;
+
+
 
     public Candidate findCandidateWithToken(String authenticationHeader){
         String token = authenticationHeader.substring(7);
@@ -73,17 +76,20 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void uploadCandidacyFiles(Integer candidacyId, MultipartFile file) {
+    public String uploadCandidacyFiles(Integer candidacyId, MultipartFile file) {
         Candidacy candidacy = candidaciesRepository.findById(candidacyId)
                 .orElseThrow(() -> new RuntimeException("no candidacy found"));
 
-        var candidacyFile = fileStorageService.saveFile(file, candidacyId);
-        if (candidacyFile.isEmpty()){
+//        var candidacyFile = fileStorageService.saveFile(file, candidacyId);
+        String fileName = storageService.store(file);
+
+        if (fileName.isEmpty()){
             log.warn("no file saved");
         }
-
-        candidacy.setFile_url(candidacyFile);
+//        candidacy.setFile_url(candidacyFile);
+        candidacy.setFile_name(fileName);
         candidaciesRepository.save(candidacy);
+        return fileName;
     }
 
     public PageResponse<CandidacyResponse> getCandidaciesResponse(Page<Candidacy> candidacies){
@@ -110,5 +116,24 @@ public class CandidateServiceImpl implements CandidateService {
 
         return getCandidaciesResponse(candidacies);
     }
+
+//    @Override
+//    public Resource loadAsResource(String filename) {
+//        try {
+//            Path file = load(filename);
+//            Resource resource = new UrlResource(file.toUri());
+//            if (resource.exists() || resource.isReadable()) {
+//                return resource;
+//            }
+//            else {
+//                throw new MalformedURLException(
+//                        "Could not read file: " + filename);
+//
+//            }
+//        }
+//        catch (MalformedURLException e) {
+//            throw new RuntimeException("Could not read file: " + filename, e);
+//        }
+//    }
 
 }

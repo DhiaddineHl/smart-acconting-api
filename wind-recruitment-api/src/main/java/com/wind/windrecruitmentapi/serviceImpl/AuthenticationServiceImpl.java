@@ -1,4 +1,4 @@
-package com.wind.windrecruitmentapi.ServiceImpl;
+package com.wind.windrecruitmentapi.serviceImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wind.windrecruitmentapi.entities.*;
@@ -10,14 +10,10 @@ import com.wind.windrecruitmentapi.services.AuthenticationService;
 import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import com.wind.windrecruitmentapi.utils.authorization.UserRole;
-import com.wind.windrecruitmentapi.utils.email.EmailService;
-import com.wind.windrecruitmentapi.utils.email.EmailTemplateName;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Optional;
 

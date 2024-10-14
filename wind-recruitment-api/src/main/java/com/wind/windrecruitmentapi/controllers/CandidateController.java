@@ -2,16 +2,24 @@ package com.wind.windrecruitmentapi.controllers;
 
 
 import com.wind.windrecruitmentapi.services.CandidateService;
+import com.wind.windrecruitmentapi.services.StorageService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +31,7 @@ public class CandidateController {
     //todo: notification feature after validating candidacy
 
     private final CandidateService candidateService;
+    private final StorageService storageService;
 
     @PostMapping("/candidacy")
     @PreAuthorize("hasAuthority('candidate:create')")
@@ -35,13 +44,14 @@ public class CandidateController {
 
     @PostMapping(value = "/files/{candidacy_id}", consumes = "multipart/form-data")
     @PreAuthorize("hasAuthority('candidate:create')")
-    public void uploadCandidacyFiles(
+    public ResponseEntity<String> uploadCandidacyFiles(
             @PathVariable("candidacy_id") Integer candidacy_id,
             @RequestPart("file") MultipartFile file
     ){
         log.warn("received the files and started the method execution");
-        candidateService.uploadCandidacyFiles(candidacy_id, file);
+        return ResponseEntity.ok(candidateService.uploadCandidacyFiles(candidacy_id, file));
     }
+
 
     @GetMapping("/myCandidacies")
     @PreAuthorize("hasAuthority('candidate:read')")

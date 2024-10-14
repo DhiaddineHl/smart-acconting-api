@@ -3,9 +3,12 @@ package com.wind.windrecruitmentapi.utils.files;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -24,5 +27,7 @@ public class FileUtils {
         }
         return null;
     }
+
+
 
 }

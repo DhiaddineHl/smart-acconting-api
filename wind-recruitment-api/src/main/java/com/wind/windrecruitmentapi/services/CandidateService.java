@@ -4,6 +4,7 @@ package com.wind.windrecruitmentapi.services;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyRequest;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface CandidateService {
     Integer postCandidacy(CandidacyRequest request, String authenticationHeader);
 
-    void uploadCandidacyFiles(Integer candidacyId, MultipartFile file);
+    String uploadCandidacyFiles(Integer candidacyId, MultipartFile file);
 
     PageResponse<CandidacyResponse> getMyCandidacies(String authenticationHeader, int size, int number);
+
 }

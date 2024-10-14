@@ -2,12 +2,15 @@ package com.wind.windrecruitmentapi.controllers;
 
 
 import com.wind.windrecruitmentapi.services.RecruiterService;
+import com.wind.windrecruitmentapi.services.StorageService;
 import com.wind.windrecruitmentapi.utils.PageResponse;
 import com.wind.windrecruitmentapi.utils.candidacies.CandidacyResponse;
 import com.wind.windrecruitmentapi.utils.topics.TopicRequest;
 import com.wind.windrecruitmentapi.utils.topics.TopicResponse;
 import com.wind.windrecruitmentapi.utils.validations.ValidationResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,7 @@ public class HRController {
     //todo: candidacy rejection feature
 
     private final RecruiterService recruiterService;
+    private final StorageService storageService;
 
     @PostMapping("/topic")
     @PreAuthorize("hasAuthority('recruiter:create')")
@@ -102,6 +106,22 @@ public class HRController {
             @PathVariable("candidateId") Integer candidateId
     ){
         return ResponseEntity.ok(recruiterService.getCandidaciesByCandidate(candidateId));
+    }
+
+    @GetMapping("/candidacies/getFile/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable("filename") String filename) {
+        Resource file = storageService.loadAsResource(filename);
+
+        if (file == null)
+            return ResponseEntity.notFound().build();
+
+        String contentDisposition = "attachment; filename=\"" + file.getFilename() + "\"";
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .header(HttpHeaders.CONTENT_TYPE, "application/pdf")
+                .body(file);
     }
 
     @PostMapping("validate-candidacy-hr/{candidacyId}")

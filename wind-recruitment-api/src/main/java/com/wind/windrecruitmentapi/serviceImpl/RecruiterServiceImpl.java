@@ -1,4 +1,4 @@
-package com.wind.windrecruitmentapi.ServiceImpl;
+package com.wind.windrecruitmentapi.serviceImpl;
 
 import com.wind.windrecruitmentapi.entities.*;
 import com.wind.windrecruitmentapi.mappers.CandidacyMapper;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 

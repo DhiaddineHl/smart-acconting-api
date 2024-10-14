@@ -19,7 +19,9 @@ public class CandidacyMapper implements Function<Candidacy, CandidacyResponse> {
                 candidacy.getId(),
                 candidacy.getCandidate().getFirst_name() + " " + candidacy.getCandidate().getLast_name(),
                 topicMapper.apply(candidacy.getTopic()),
-                FileUtils.readFileFromLocation(candidacy.getFile_url()),
+//                FileUtils.readFileFromLocation(candidacy.getFile_url()),
+                candidacy.getFile_url(),
+                candidacy.getFile_name(),
                 candidacy.getCreatedAt(),
                 candidacy.getStatus().name().toLowerCase()
         );

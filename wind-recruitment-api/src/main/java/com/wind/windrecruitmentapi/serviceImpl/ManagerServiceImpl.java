@@ -1,4 +1,4 @@
-package com.wind.windrecruitmentapi.ServiceImpl;
+package com.wind.windrecruitmentapi.serviceImpl;
 
 
 import com.wind.windrecruitmentapi.entities.HRRecruiter;
