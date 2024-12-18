@@ -49,30 +49,23 @@ public class JWTService {
         return buildToken(extraClaims, userDetails, accessTokenExpiration);
     }
 
-    public String generateRefreshToken(
-            UserDetails userDetails
-    ){
-        return buildToken(
-                new HashMap<>(),
-                userDetails,
-                refreshTokenExpiration
-        );
-    }
-
-
     private String buildToken(
             Map<String, Object> extraClaims,
             UserDetails userDetails,
             long expiration
-    )
-    {
+    ) {
+//        var authorities = userDetails.getAuthorities()
+//                .stream().
+//                map(GrantedAuthority::getAuthority)
+//                .toList();
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+//                .claim("authorities", authorities)
+                .signWith(getSignInKey())
                 .compact();
     }
 

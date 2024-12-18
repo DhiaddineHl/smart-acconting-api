@@ -20,63 +20,20 @@ public class AuthenticationController {
 
     private final AuthenticationService authService;
 
-    @PostMapping("/register-manager")
-    public void registerManager(
-            @RequestBody ManagerRegisterRequest request
-    ) throws MessagingException {
-        authService.registerManager(request);
-    }
-    @PostMapping("/register-candidate")
-    public void registerCandidate(
-            @RequestBody CandidateRegisterRequest request
-    ) throws MessagingException {
-        authService.registerCandidate(request);
+    @PostMapping("/register")
+    public void register(
+            @RequestBody RegisterRequest request
+    ){
+        authService.register(request);
     }
 
-//    @PostMapping("/register-hr-recruiter")
-//    @PreAuthorize("hasRole('MANAGER')")
-//    public void registerHRRecruiter(
-//            @RequestBody ManagerRegisterRequest request
-//    ) {
-//        authService.registerHRRecruiter(request);
-//    }
-//
-//    @PostMapping("/register-tech-recruiter")
-//    @PreAuthorize("hasRole('MANAGER')")
-//    public void registerTechnicalRecruiter(
-//            @RequestBody ManagerRegisterRequest request
-//    ) {
-//        authService.registerTechRecruiter(request);
-//    }
 
-    @PostMapping("/register-recruiter")
-    @PreAuthorize("hasRole('MANAGER')")
-    public void registerRecruiter(
-            @RequestBody RecruiterRegisterRequest request
-    ) {
-        authService.registerRecruiter(request);
-    }
-
-    @PostMapping("/activate-account")
-    public void activateAccount(
-        @RequestParam String token
-    ) throws MessagingException {
-        authService.activateAccount(token);
-    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
             @RequestBody AuthRequest request
     ){
         return ResponseEntity.ok(authService.authenticate(request));
-    }
-
-    @PostMapping("/refresh-token")
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws IOException {
-        authService.refreshToken(request, response);
     }
 
 

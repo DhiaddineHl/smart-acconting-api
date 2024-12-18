@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/wind
+    url: jdbc:postgresql://localhost:5432/smart-accounting-db
     username: postgres
     password: pass
     driver-class-name: org.postgresql.Driver
@@ -14,28 +14,6 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-  servlet:
-    multipart:
-      max-file-size: 50MB
-
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: hlaouidhia@gmail.com
-    password: wgkk shhl gykp zsyq
-    properties:
-      mail:
-        smtp:
-          ssl:
-            enable: true
-          trust: "*"
-        auth: true
-        starttls:
-          enabled: false
-        connectiontimeout: 10000
-        timeout: 10000
-        writetimeout: 10000
-
   application:
     security:
       jwt:
@@ -43,11 +21,5 @@ spring:
         access-token-expiration: 86400000
         refresh-token-expiration: 604800000
 
-    mailing:
-      frontend:
-        activation_url: http://localhost:4200/activate-account
-
-    file:
-      uploads:
-        file-output-path: ./uploads
-
+server:
+  port: 8080

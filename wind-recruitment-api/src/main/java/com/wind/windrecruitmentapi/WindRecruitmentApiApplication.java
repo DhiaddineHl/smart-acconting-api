@@ -1,6 +1,5 @@
 package com.wind.windrecruitmentapi;
 
-import com.wind.windrecruitmentapi.utils.files.StorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -12,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @EnableMethodSecurity
 @EnableAsync
-@EnableConfigurationProperties(StorageProperties.class)
+//@EnableConfigurationProperties(StorageProperties.class)
 public class WindRecruitmentApiApplication {
 
     public static void main(String[] args) {

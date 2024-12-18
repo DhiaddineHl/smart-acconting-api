@@ -10,20 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public enum Permission {
 
 
-    MANAGER_READ("manager:read"),
-    MANAGER_CREATE("manager:create"),
-    MANAGER_UPDATE("manager:update"),
-    MANAGER_DELETE("manager:delete"),
+    BUSINESS_READ("business:read"),
+    BUSINESS_CREATE("business:create"),
+    BUSINESS_UPDATE("business:update"),
+    BUSINESS_DELETE("business:delete");
 
-    RECRUITER_READ("recruiter:read"),
-    RECRUITER_CREATE("recruiter:create"),
-    RECRUITER_UPDATE("recruiter:update"),
-    RECRUITER_DELETE("recruiter:delete"),
-
-    CANDIDATE_READ("candidate:read"),
-    CANDIDATE_CREATE("candidate:create"),
-    CANDIDATE_UPDATE("candidate:update"),
-    CANDIDATE_DELETE("candidate:delete");
 
 
 

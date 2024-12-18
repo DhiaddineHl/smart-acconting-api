@@ -1,7 +1,6 @@
 package com.wind.windrecruitmentapi.securityConfig;
 
 
-import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.io.IOException;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
-    private final TokenRepository tokenRepository;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -46,11 +44,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
 
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(token -> !token.isExpired() &&!token.isRevoked())
-                    .orElse(false);
 
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid){
+            if (jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,

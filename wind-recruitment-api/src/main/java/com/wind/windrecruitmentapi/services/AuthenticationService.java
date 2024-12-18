@@ -10,19 +10,12 @@ import java.io.IOException;
 
 @Service("authService")
 public interface AuthenticationService {
-    void registerCandidate(CandidateRegisterRequest request) throws MessagingException;
-
-    void registerManager(ManagerRegisterRequest request) throws MessagingException;
-
-//    void registerHRRecruiter(ManagerRegisterRequest request);
-//
-//    void registerTechRecruiter(ManagerRegisterRequest request);
 
     AuthResponse authenticate(AuthRequest request);
 
-    void activateAccount(String token) throws MessagingException;
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
+//    void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
-    void registerRecruiter(RecruiterRegisterRequest request);
+
+    void register(RegisterRequest request);
 }

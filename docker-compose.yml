@@ -1,26 +1,27 @@
 services:
   postgres:
-    container_name: postgres-wind-recruitment
+    container_name: postgres-smart-accounting
     image: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pass
       PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB: wind
+      POSTGRES_DB: smart-accounting-db
     volumes:
       - postgres:/data/postgres
     ports:
-      - 5433:5432
+      - "5432:5432"
     networks:
-      - wind-recruitment-network
+      - smart-accounting-network
     restart: unless-stopped
-  wind-recruitment-api:
-    container_name: wind-recruitment-api
-    image: wind-recruitment/wind-recruitment-api:1.0.1
+
+  smart-accounting-api:
+    container_name: smart-accounting-api
+    image: smart-accounting/smart-accounting:1.0.3
     ports:
-      - 8080:8080
+      - "8080:8080"
     networks:
-      - wind-recruitment-network
+      - smart-accounting-network
     depends_on:
       - postgres
 
@@ -35,7 +36,7 @@ services:
 #      - wind-recruitment-api
 
 networks:
-  wind-recruitment-network:
+  smart-accounting-network:
     driver: bridge
 
 volumes:

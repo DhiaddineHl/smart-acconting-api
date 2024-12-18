@@ -8,11 +8,11 @@
         <version>3.3.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wind</groupId>
-    <artifactId>wind-recruitment-api</artifactId>
+    <groupId>com.eniso</groupId>
+    <artifactId>smart-accounting</artifactId>
     <version>1.0.0</version>
-    <name>wind-recruitment-api</name>
-    <description>wind-recruitment-api</description>
+    <name>smart-accounting</name>
+    <description>The api of the smart accounting app</description>
     <url/>
     <licenses>
         <license/>

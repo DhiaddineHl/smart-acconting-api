@@ -14,11 +14,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
-                        name = "Alibou",
-                        email = "contact@aliboucoding.com"
+                        name = "Dhiaddine HLAOUI",
+                        email = "dhiaddine.hlaoui@eniso.u-sousse.tn"
                 ),
-                description = "OpenApi documentation for wind recruitment",
-                title = "OpenApi specification - Wind recruitment",
+                description = "OpenApi documentation for smart accounting",
+                title = "OpenApi specification - Smart accounting",
                 version = "1.0",
                 license = @License(
                         name = "Licence name",
@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "Local ENV",
-                        url = "http://localhost:8080"
+                        url = "http://localhost:8090"
                 )
         },
         security = {

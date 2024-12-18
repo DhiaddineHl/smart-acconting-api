@@ -13,32 +13,27 @@ import java.util.List;
 
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String first_name;
-    private String last_name;
+    private String ownerName;
+    private String businessName;
 
     private String email;
     private String password;
-    private String phone_number;
+    private String phoneNumber;
 
-    private boolean isAccountActivated;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
-
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
 
 
     @Override
@@ -73,6 +68,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isAccountActivated;
+        return true;
     }
 }

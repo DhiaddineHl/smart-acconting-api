@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/WindRecruitment.iml" filepath="$PROJECT_DIR$/.idea/WindRecruitment.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wind-recruitment-ui.iml" filepath="$PROJECT_DIR$/wind-recruitment-ui.iml" />
     </modules>
   </component>
 </project>

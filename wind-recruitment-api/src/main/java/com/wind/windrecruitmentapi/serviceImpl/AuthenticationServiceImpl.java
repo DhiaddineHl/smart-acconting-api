@@ -2,15 +2,11 @@ package com.wind.windrecruitmentapi.serviceImpl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wind.windrecruitmentapi.entities.*;
-import com.wind.windrecruitmentapi.repositories.ConfirmationTokenRepository;
-import com.wind.windrecruitmentapi.repositories.TokenRepository;
 import com.wind.windrecruitmentapi.repositories.UserRepository;
 import com.wind.windrecruitmentapi.securityConfig.JWTService;
 import com.wind.windrecruitmentapi.services.AuthenticationService;
-import com.wind.windrecruitmentapi.utils.authentication.TokenType;
 import com.wind.windrecruitmentapi.utils.authentication.*;
 import com.wind.windrecruitmentapi.utils.authorization.UserRole;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,24 +14,19 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    //todo: handle exception
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-    private final TokenRepository tokenRepository;
-    private final ConfirmationTokenRepository confirmationTokenRepository;
 
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -47,92 +38,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (user.isPresent()){
             throw new IllegalStateException("Email already taken");
         }
-    }
-    @Override
-    public void registerCandidate(CandidateRegisterRequest request) throws MessagingException {
-
-//        verifyUser(request.getEmail());
-
-        var candidate = Candidate.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone_number(request.getPhone_number())
-                .university(request.getUniversity())
-                .role(UserRole.CANDIDATE)
-                .isAccountActivated(false)
-                .build();
-
-        repository.save(candidate);
-        authenticationUtils.sendVerificationEmail(candidate);
-
-    }
-
-    @Override
-    public void registerManager(ManagerRegisterRequest request) throws MessagingException {
-        verifyUser(request.getEmail());
-
-        EnterpriseManager manager = EnterpriseManager.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone_number(request.getPhone_number())
-                .company(request.getCompany())
-                .role(UserRole.MANAGER)
-                .isAccountActivated(false)
-                .build();
-
-        repository.save(manager);
-        authenticationUtils.sendVerificationEmail(manager);
-
-    }
-
-    @Override
-    public void registerRecruiter(RecruiterRegisterRequest request) {
-
-        verifyUser(request.getEmail());
-
-        if (request.getRecruiter_type().equalsIgnoreCase("human-resources")){
-            registerHRRecruiter(request);
-        }else if (request.getRecruiter_type().equalsIgnoreCase("technical")){
-            registerTechRecruiter(request);
-        }
-
-    }
-
-    public void registerHRRecruiter(RecruiterRegisterRequest request) {
-
-        HRRecruiter hrRecruiter = HRRecruiter.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone_number(request.getPhone_number())
-                .company(request.getCompany())
-                .speciality(request.getSpeciality())
-                .role(UserRole.RECRUITER)
-                .isAccountActivated(true)
-                .build();
-        repository.save(hrRecruiter);
-    }
-
-    public void registerTechRecruiter(RecruiterRegisterRequest request) {
-
-        TechnicalRecruiter technicalRecruiter = TechnicalRecruiter.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone_number(request.getPhone_number())
-                .speciality(request.getSpeciality())
-                .company(request.getCompany())
-                .role(UserRole.RECRUITER)
-                .isAccountActivated(true)
-                .build();
-        repository.save(technicalRecruiter);
-
     }
 
     @Override
@@ -148,91 +53,56 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(()-> new BadCredentialsException("Invalid email or password"));
 
         String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-
-        revokeAllUserTokens(user);
-        saveUserToken(user, jwtToken);
+//        String refreshToken = jwtService.generateRefreshToken(user);
 
         return AuthResponse.builder()
                 .access_token(jwtToken)
-                .refresh_token(refreshToken)
-                .user_role(user.getRole().name().toLowerCase())
+//                .refresh_token(refreshToken)
+//                .user_role(user.getRole().name().toLowerCase())
                 .build();
     }
 
+
+//    @Override
+//    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//
+//        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+//        final String refreshToken;
+//        final String userEmail;
+//        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+//            throw new IllegalStateException("Bad request");
+//        }
+//        refreshToken = authHeader.substring(7);
+//        userEmail = jwtService.extractUsername(refreshToken);
+//        if (userEmail != null) {
+//            User user = this.repository.findByEmail(userEmail)
+//                    .orElseThrow();
+//            if (jwtService.isTokenValid(refreshToken, user)) {
+//                String accessToken = jwtService.generateToken(user);
+//
+//
+//                AuthResponse authResponse = AuthResponse.builder()
+//                        .access_token(accessToken)
+//                        .refresh_token(refreshToken)
+//                        .build();
+//                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+//            }
+//        }
+//    }
+
     @Override
-    public void activateAccount(String token) throws MessagingException {
+    public void register(RegisterRequest request) {
 
-        ConfirmationToken savedToken = confirmationTokenRepository.findByToken(token);
-
-        if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
-            authenticationUtils.sendVerificationEmail(savedToken.getUser());
-            throw new RuntimeException("Activation token has expired. A new token has been send to the same email address");
-        }
-
-        User user = repository.findById(savedToken.getUser().getId())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        user.setAccountActivated(true);
+        User user = User.builder()
+                .ownerName(request.getOwnerName())
+                .businessName(request.getBusinessName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNumber(request.getPhoneNumber())
+                .role(UserRole.BUSINESS)
+                .build();
         repository.save(user);
-
-        savedToken.setValidatedAt(LocalDateTime.now());
-        confirmationTokenRepository.save(savedToken);
     }
-
-    @Override
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
-            throw new IllegalStateException("Bad request");
-        }
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            User user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                String accessToken = jwtService.generateToken(user);
-
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-
-                AuthResponse authResponse = AuthResponse.builder()
-                        .access_token(accessToken)
-                        .refresh_token(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
-    }
-
-
-
-    private void saveUserToken(User user, String jwtToken) {
-        Token token = Token.builder()
-                .user(user)
-                .token(jwtToken)
-                .type(TokenType.BEARER)
-                .isExpired(false)
-                .isRevoked(false)
-                .build();
-        tokenRepository.save(token);
-    }
-
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        if (validUserTokens.isEmpty())
-            return;
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
-
-    //todo: add the resend activationCode method
 
 
 }

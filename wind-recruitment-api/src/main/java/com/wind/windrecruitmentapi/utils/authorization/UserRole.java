@@ -15,22 +15,10 @@ import static com.wind.windrecruitmentapi.utils.authorization.Permission.*;
 @Getter
 public enum UserRole {
 
-    CANDIDATE(
+    BUSINESS(
             Set.of(
-                CANDIDATE_CREATE, CANDIDATE_READ, CANDIDATE_UPDATE, CANDIDATE_DELETE
+                BUSINESS_CREATE, BUSINESS_READ, BUSINESS_UPDATE, BUSINESS_DELETE
             )
-    ),
-
-    MANAGER(
-            Set.of(
-                MANAGER_CREATE, MANAGER_READ, MANAGER_DELETE, MANAGER_UPDATE
-            )
-    ),
-
-    RECRUITER(
-            Set.of(
-                RECRUITER_CREATE, RECRUITER_READ, RECRUITER_UPDATE, RECRUITER_DELETE
-    )
     )
     ;
 
